@@ -75,6 +75,16 @@ $router->addRoutes([
             'controller' => '\App\Controllers\CategoryController'
         ],
         'category-list'
+    ],
+
+    [
+        'GET',
+        '/category/add',
+        [
+            'method' => 'add',
+            'controller' => '\App\Controllers\CategoryController'
+        ],
+        'category-ladd'
     ]
 ]);
 

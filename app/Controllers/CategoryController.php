@@ -22,4 +22,14 @@ class CategoryController extends CoreController
             'categories' => $categories
         ]);
     }
+
+    /**
+     * Add a category
+     *
+     * @return void
+     */
+    public function add()
+    {
+        $this->show('category/add');
+    }
 }
