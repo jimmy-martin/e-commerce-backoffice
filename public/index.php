@@ -62,6 +62,26 @@ $router->map(
     'main-home' // nom de la route, convention "NomDuController-NomDeLaMéthode"
 );
 
+// -----------------------------------------------
+// CATÉGORIES
+// -----------------------------------------------
+
+$router->addRoutes([
+    [
+        'GET',
+        '/category/list',
+        [
+            'method' => 'list',
+            'controller' => '\App\Controllers\CategoryController'
+        ],
+        'category-list'
+    ]
+]);
+
+// -----------------------------------------------
+// PRODUITS
+// -----------------------------------------------
+
 
 /* -------------
 --- DISPATCH ---
