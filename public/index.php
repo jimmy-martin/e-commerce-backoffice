@@ -89,6 +89,16 @@ $router->addRoutes([
             'controller' => '\App\Controllers\CategoryController'
         ],
         'category-add'
+    ],
+
+    [
+        'POST',
+        '/category/add',
+        [
+            'method' => 'create',
+            'controller' => '\App\Controllers\CategoryController'
+        ],
+        'category-create'
     ]
 ]);
 
