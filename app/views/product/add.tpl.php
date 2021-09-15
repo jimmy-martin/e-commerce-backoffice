@@ -1,4 +1,4 @@
-<a href="#" class="btn btn-success float-right">Retour</a>
+<a href="<?= $router->generate('product-list') ?>" class="btn btn-success float-right">Retour</a>
 <h2>Ajouter un produit</h2>
 
 <form action="" method="POST" class="mt-5">
