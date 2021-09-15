@@ -3,6 +3,17 @@
 // POINT D'ENTRÉE UNIQUE : 
 // FrontController
 
+/* ------------
+---- DEBUG ----
+-------------*/
+
+// affiche toutes les erreurs
+// 💀 environnement DEV uniquement
+// 💀 à ne pas utiliser en PROD
+@ini_set('display_errors', 1); // affiche les erreurs à l'écran
+@ini_set('display_startup_errors', 1); // affiche les erreurs de démarrage PHP
+@error_reporting(E_ALL); // affiche tous les types d'erreurs
+
 // inclusion des dépendances via Composer
 // autoload.php permet de charger d'un coup toutes les dépendances installées avec composer
 // mais aussi d'activer le chargement automatique des classes (convention PSR-4)
