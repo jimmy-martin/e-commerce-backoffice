@@ -28,7 +28,14 @@ class ProductController extends CoreController
      */
     public function add()
     {
-        $this->show('product/add');
+        if(isset($_GET) && array_key_exists('id', $_GET)){
+            $product = Product::find($_GET['id']);
+            $this->show('product/add', [
+                'product' => $product
+            ]);
+        } else {
+            $this->show('product/add');
+        }
     }
 
     /**

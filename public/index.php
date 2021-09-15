@@ -99,6 +99,16 @@ $router->addRoutes([
             'controller' => '\App\Controllers\CategoryController'
         ],
         'category-create'
+    ],
+
+    [
+        'PUT',
+        '/category/add',
+        [
+            'method' => 'update',
+            'controller' => '\App\Controllers\CategoryController'
+        ],
+        'category-update'
     ]
 ]);
 
@@ -135,6 +145,16 @@ $router->addRoutes([
             'controller' => '\App\Controllers\ProductController'
         ],
         'product-create'
+    ],
+
+    [
+        'PUT',
+        '/product/add',
+        [
+            'method' => 'update',
+            'controller' => '\App\Controllers\ProductController'
+        ],
+        'product-update'
     ]
 ]);
 

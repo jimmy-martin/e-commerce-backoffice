@@ -29,7 +29,15 @@ class CategoryController extends CoreController
      */
     public function add()
     {
-        $this->show('category/add');
+        $category = '';
+        // Je vérifie si $_GET est vide et je l'inclue aux variables accessibles a ma vue si besoin sinon je ne les envoie pas
+        if (isset($_GET) && array_key_exists('id', $_GET)) {
+            $category = Category::find($_GET['id']);
+        }
+
+        $this->show('category/add', [
+            'category' => $category
+        ]);
     }
 
     /**
@@ -68,6 +76,5 @@ class CategoryController extends CoreController
         if ($result) {
             header('Location: list');
         }
-
     }
 }

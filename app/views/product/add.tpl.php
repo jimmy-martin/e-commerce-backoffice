@@ -4,19 +4,19 @@
 <form action="" method="POST" class="mt-5">
     <div class="form-group">
         <label for="name">Nom</label>
-        <input type="text" class="form-control" name="name" id="name" placeholder="Nom du produit">
+        <input type="text" class="form-control" name="name" id="name" placeholder="Nom du produit" value="<?=!empty($product) ? $product->getName() : '' ?>">
     </div>
     <div class="form-group">
         <label for="description">Description</label>
         <input type="text" class="form-control" name="description" id="description" placeholder="Sous-titre" 
-            aria-describedby="descriptionHelpBlock">
+            aria-describedby="descriptionHelpBlock" value="<?= !empty($product) ? $product->getDescription() : '' ?>">
         <small id="subtitleHelpBlock" class="form-text text-muted">
             La description du produit 
         </small>
     </div>
     <div class="form-group">
         <label for="picture">Image</label>
-        <input type="text" class="form-control" name="picture" id="picture" placeholder="image jpg, gif, svg, png" aria-describedby="pictureHelpBlock">
+        <input type="text" class="form-control" name="picture" id="picture" placeholder="image jpg, gif, svg, png" aria-describedby="pictureHelpBlock" value="<?= !empty($product) ? $product->getPicture() : '' ?>">
         <small id="pictureHelpBlock" class="form-text text-muted">
             URL relative d'une image (jpg, gif, svg ou png) fournie sur 
             <a href="https://benoclock.github.io/S06-images/" target="_blank">cette page</a>
@@ -25,7 +25,7 @@
     <div class="form-group">
         <label for="price">Prix</label>
         <input type="number" class="form-control" name="price" id="price" placeholder="Prix" 
-            aria-describedby="priceHelpBlock">
+            aria-describedby="priceHelpBlock" value="<?= !empty($product) ? $product->getPrice() : '' ?>">
         <small id="priceHelpBlock" class="form-text text-muted">
             Le prix du produit 
         </small>
@@ -33,7 +33,7 @@
     <div class="form-group">
         <label for="rate">Note</label>
         <input type="text" class="form-control" name="rate" id="rate" placeholder="Note" 
-            aria-describedby="rateHelpBlock">
+            aria-describedby="rateHelpBlock" value="<?= !empty($product) ? $product->getRate() : '' ?>">
         <small id="rateHelpBlock" class="form-text text-muted">
             Le note du produit 
         </small>
