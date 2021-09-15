@@ -38,7 +38,7 @@ class ProductController extends CoreController
      */
     public function create()
     {
-        dump($_POST);
+        // dump($_POST);
 
         $name = '';
         $description = '';
@@ -88,6 +88,10 @@ class ProductController extends CoreController
         $product->setBrandId($brand);
         $product->setTypeId($type);
 
-        $product->insert();
+        $result = $product->insert();
+
+        if ($result) {
+            header('Location: list');
+        }
     }
 }
