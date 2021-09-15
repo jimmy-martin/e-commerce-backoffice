@@ -29,7 +29,7 @@ class Brand extends CoreModel {
      * @param int $brandId ID de la marque
      * @return Brand
      */
-    public function find($brandId)
+    static public function find($brandId)
     {
         // se connecter à la BDD
         $pdo = Database::getPDO();
@@ -55,7 +55,7 @@ class Brand extends CoreModel {
      * 
      * @return Brand[]
      */
-    public function findAll()
+    static public function findAll()
     {
         $pdo = Database::getPDO();
         $sql = 'SELECT * FROM `brand`';
@@ -70,7 +70,7 @@ class Brand extends CoreModel {
      * 
      * @return Brand[]
      */
-    public function findAllFooter()
+    static public function findAllFooter()
     {
         $pdo = Database::getPDO();
         $sql = '
