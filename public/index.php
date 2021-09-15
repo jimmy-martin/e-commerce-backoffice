@@ -91,6 +91,7 @@ $router->addRoutes([
 // -----------------------------------------------
 // PRODUITS
 // -----------------------------------------------
+
 $router->addRoutes([
     [
         'GET',
@@ -100,6 +101,16 @@ $router->addRoutes([
             'controller' => '\App\Controllers\ProductController'
         ],
         'product-list'
+    ],
+
+    [
+        'GET',
+        '/product/add',
+        [
+            'method' => 'add',
+            'controller' => '\App\Controllers\ProductController'
+        ],
+        'product-add'
     ]
 ]);
 

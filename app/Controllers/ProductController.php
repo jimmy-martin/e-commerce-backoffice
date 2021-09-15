@@ -8,7 +8,7 @@ class ProductController extends CoreController
 {
 
     /**
-     * Liste des produits
+     * List all products
      *
      * @return void
      */
@@ -19,5 +19,15 @@ class ProductController extends CoreController
         $this->show('product/list', [
             'products' => $products
         ]);
+    }
+
+    /**
+     * Add a product
+     *
+     * @return void
+     */
+    public function add()
+    {
+        $this->show('product/add');
     }
 }
