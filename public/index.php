@@ -42,6 +42,10 @@ else {
     $_SERVER['BASE_URI'] = '/';
 }
 
+// -----------------------------------------------
+// HOME PAGE
+// -----------------------------------------------
+
 // On doit déclarer toutes les "routes" à AltoRouter, afin qu'il puisse nous donner LA "route" correspondante à l'URL courante
 // On appelle cela "mapper" les routes
 // 1. méthode HTTP : GET ou POST (pour résumer)

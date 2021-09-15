@@ -93,6 +93,26 @@ class Product extends CoreModel {
     }
 
     /**
+     * Récupérer les 5 produits mises en avant sur la home
+     * 
+     * @return Product[]
+     */
+    static public function findAllHomepage()
+    {
+        $pdo = Database::getPDO();
+        $sql = '
+            SELECT * 
+            FROM `product` 
+            ORDER BY created_at DESC 
+            LIMIT 5
+        ';
+        $pdoStatement = $pdo->query($sql);
+        $products = $pdoStatement->fetchAll(PDO::FETCH_CLASS, 'App\Models\Product');
+        
+        return $products;
+    }
+
+    /**
      * Get the value of name
      *
      * @return  string
