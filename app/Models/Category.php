@@ -5,7 +5,8 @@ namespace App\Models;
 use App\Utils\Database;
 use PDO;
 
-class Category extends CoreModel {
+class Category extends CoreModel
+{
 
     /**
      * @var string
@@ -28,7 +29,7 @@ class Category extends CoreModel {
      * Get the value of name
      *
      * @return  string
-     */ 
+     */
     public function getName()
     {
         return $this->name;
@@ -38,7 +39,7 @@ class Category extends CoreModel {
      * Set the value of name
      *
      * @param  string  $name
-     */ 
+     */
     public function setName(string $name)
     {
         $this->name = $name;
@@ -46,7 +47,7 @@ class Category extends CoreModel {
 
     /**
      * Get the value of subtitle
-     */ 
+     */
     public function getSubtitle()
     {
         return $this->subtitle;
@@ -54,7 +55,7 @@ class Category extends CoreModel {
 
     /**
      * Set the value of subtitle
-     */ 
+     */
     public function setSubtitle($subtitle)
     {
         $this->subtitle = $subtitle;
@@ -62,7 +63,7 @@ class Category extends CoreModel {
 
     /**
      * Get the value of picture
-     */ 
+     */
     public function getPicture()
     {
         return $this->picture;
@@ -70,7 +71,7 @@ class Category extends CoreModel {
 
     /**
      * Set the value of picture
-     */ 
+     */
     public function setPicture($picture)
     {
         $this->picture = $picture;
@@ -78,7 +79,7 @@ class Category extends CoreModel {
 
     /**
      * Get the value of home_order
-     */ 
+     */
     public function getHomeOrder()
     {
         return $this->home_order;
@@ -86,7 +87,7 @@ class Category extends CoreModel {
 
     /**
      * Set the value of home_order
-     */ 
+     */
     public function setHomeOrder($home_order)
     {
         $this->home_order = $home_order;
@@ -127,7 +128,7 @@ class Category extends CoreModel {
         $sql = 'SELECT * FROM `category`';
         $pdoStatement = $pdo->query($sql);
         $results = $pdoStatement->fetchAll(PDO::FETCH_CLASS, 'App\Models\Category');
-        
+
         return $results;
     }
 
@@ -147,7 +148,7 @@ class Category extends CoreModel {
         ';
         $pdoStatement = $pdo->query($sql);
         $categories = $pdoStatement->fetchAll(PDO::FETCH_CLASS, 'App\Models\Category');
-        
+
         return $categories;
     }
 
@@ -166,8 +167,36 @@ class Category extends CoreModel {
 
         $insertedRows = $pdo->exec($sql);
 
-        if ($insertedRows > 0){
+        if ($insertedRows > 0) {
             $this->id = $pdo->lastInsertId();
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Update a category in database
+     * 
+     * @return bool
+     */
+    public function update()
+    {
+        $pdo = Database::getPDO();
+        $sql = "
+            UPDATE `category`
+            SET `name` = '{$this->name}',
+                `subtitle` = '{$this->subtitle}',
+                `picture` = '{$this->picture}'
+            WHERE `id` = {$this->id};
+        ";
+
+        dump($sql);
+        exit;
+
+        $insertedRows = $pdo->exec($sql);
+
+        if ($insertedRows > 0) {
+            // $this->id = $pdo->lastInsertId();
             return true;
         }
         return false;

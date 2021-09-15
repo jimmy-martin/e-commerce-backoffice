@@ -77,4 +77,46 @@ class CategoryController extends CoreController
             header('Location: list');
         }
     }
+
+    /**
+     * Update a category into the database
+     *
+     * @param int $id category' id
+     * @return void
+     */
+    public function update()
+    {
+        $id = '';
+        $name = '';
+        $subtitle = '';
+        $picture = '';
+
+        if (
+            isset($_POST) &&
+            array_key_exists('name', $_POST) &&
+            array_key_exists('subtitle', $_POST) &&
+            array_key_exists('picture', $_POST)
+        ) {
+            $name = filter_input(INPUT_POST, 'name');
+            $subtitle = filter_input(INPUT_POST, 'subtitle');
+            $picture = filter_input(INPUT_POST, 'picture');
+        }
+
+        if (isset($_GET) && array_key_exists('id', $_GET)) {
+            $id = (int)$_GET['id'];
+
+            $category = Category::find($id);
+    
+            $category->setName($name);
+            $category->setSubtitle($subtitle);
+            $category->setPicture($picture);
+    
+            $result = $category->update();
+    
+            if ($result) {
+                header('Location: list');
+            }
+        }
+
+    }
 }
