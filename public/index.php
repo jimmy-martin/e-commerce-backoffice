@@ -84,14 +84,24 @@ $router->addRoutes([
             'method' => 'add',
             'controller' => '\App\Controllers\CategoryController'
         ],
-        'category-ladd'
+        'category-add'
     ]
 ]);
 
 // -----------------------------------------------
 // PRODUITS
 // -----------------------------------------------
-
+$router->addRoutes([
+    [
+        'GET',
+        '/product/list',
+        [
+            'method' => 'list',
+            'controller' => '\App\Controllers\ProductController'
+        ],
+        'product-list'
+    ]
+]);
 
 /* -------------
 --- DISPATCH ---
