@@ -151,6 +151,11 @@ class Category extends CoreModel {
         return $categories;
     }
 
+    /**
+     * Insert a category in database
+     * 
+     * @return bool
+     */
     public function insert()
     {
         $pdo = Database::getPDO();

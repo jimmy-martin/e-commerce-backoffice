@@ -113,6 +113,28 @@ class Product extends CoreModel {
     }
 
     /**
+     * Insert a product in database
+     * 
+     * @return bool
+     */
+    public function insert()
+    {
+        $pdo = Database::getPDO();
+        $sql = "
+            INSERT INTO `product` (name, description, picture, price, rate, status, category_id, brand_id, type_id)
+            VALUES ('{$this->name}', '{$this->description}', '{$this->picture}', {$this->price}, {$this->rate}, {$this->status}, {$this->category_id}, {$this->brand_id}, {$this->type_id})
+        ";
+
+        $insertedRows = $pdo->exec($sql);
+
+        if ($insertedRows > 0){
+            $this->id = $pdo->lastInsertId();
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Get the value of name
      *
      * @return  string
