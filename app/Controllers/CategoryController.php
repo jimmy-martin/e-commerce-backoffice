@@ -32,6 +32,11 @@ class CategoryController extends CoreController
         $this->show('category/add');
     }
 
+    /**
+     * Add a category into the database
+     *
+     * @return void
+     */
     public function create()
     {
         dump($_POST);
@@ -51,5 +56,14 @@ class CategoryController extends CoreController
             $subtitle = filter_input(INPUT_POST, 'subtitle');
             $picture = filter_input(INPUT_POST, 'picture');
         }
+
+        $category = new Category();
+
+        $category->setName($name);
+        $category->setSubtitle($subtitle);
+        $category->setPicture($picture);
+
+        $category->insert();
+
     }
 }
