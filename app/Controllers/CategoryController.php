@@ -39,7 +39,7 @@ class CategoryController extends CoreController
      */
     public function create()
     {
-        dump($_POST);
+        // dump($_POST);
 
         $name = '';
         $subtitle = '';
@@ -63,7 +63,11 @@ class CategoryController extends CoreController
         $category->setSubtitle($subtitle);
         $category->setPicture($picture);
 
-        $category->insert();
+        $result = $category->insert();
+
+        if ($result) {
+            header('Location: list');
+        }
 
     }
 }
