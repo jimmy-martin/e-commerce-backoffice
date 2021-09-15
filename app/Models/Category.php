@@ -98,7 +98,7 @@ class Category extends CoreModel {
      * @param int $categoryId ID de la catégorie
      * @return Category
      */
-    public function find($categoryId)
+    static public function find($categoryId)
     {
         // se connecter à la BDD
         $pdo = Database::getPDO();
@@ -121,7 +121,7 @@ class Category extends CoreModel {
      * 
      * @return Category[]
      */
-    public function findAll()
+    static public function findAll()
     {
         $pdo = Database::getPDO();
         $sql = 'SELECT * FROM `category`';

@@ -13,8 +13,7 @@ class CategoryController extends CoreController
      */
     public function list()
     {
-        $categoryModel = new Category();
-        $categories = $categoryModel->findAll();
+        $categories = Category::findAll();
 
         // dump($categories);
 
