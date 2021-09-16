@@ -101,9 +101,9 @@ class ProductController extends CoreController
             $product->setBrandId($brand_id);
             $product->setTypeId($type_id);
 
-            $inserted = $product->insert();
+            $result = $product->insert();
 
-            if ($inserted) {
+            if ($result) {
                 header('Location: /product/list');
                 exit;
             } else {
