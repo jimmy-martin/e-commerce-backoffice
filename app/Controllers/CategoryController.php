@@ -51,9 +51,9 @@ class CategoryController extends CoreController
 
         // filter_input fait déja le test pour savoir si la variables existe bien, etc
         // donc pas besoin de verifier isset etc.
-        $name = filter_input(INPUT_POST, 'name');
-        $subtitle = filter_input(INPUT_POST, 'subtitle');
-        $picture = filter_input(INPUT_POST, 'picture');
+        $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
+        $subtitle = filter_input(INPUT_POST, 'subtitle', FILTER_SANITIZE_STRING);
+        $picture = filter_input(INPUT_POST, 'picture', FILTER_SANITIZE_STRING);
 
         // on vérifie la validité des données reçues (gestion d'erreur)
         $errors = []; // tableau vide, pour le moment
