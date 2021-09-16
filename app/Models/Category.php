@@ -197,21 +197,24 @@ class Category extends CoreModel
         $pdo = Database::getPDO();
         $sql = "
             UPDATE `category`
-            SET `name` = '{$this->name}',
-                `subtitle` = '{$this->subtitle}',
-                `picture` = '{$this->picture}'
-            WHERE `id` = {$this->id};
+            SET `name` = :name,
+                `subtitle` = :subtitle,
+                `picture` = :picture,
+                `updated_at` = NOW()
+            WHERE `id` = :id
         ";
 
-        dump($sql);
-        exit;
+        $preparation = $pdo->prepare($sql);
 
-        $insertedRows = $pdo->exec($sql);
+        $preparation->bindValue(':name', $this->name, PDO::PARAM_STR);
+        $preparation->bindValue(':subtitle', $this->subtitle, PDO::PARAM_STR);
+        $preparation->bindValue(':picture', $this->picture, PDO::PARAM_STR);
+        $preparation->bindValue(':id', $this->id, PDO::PARAM_INT);
 
-        if ($insertedRows > 0) {
-            // $this->id = $pdo->lastInsertId();
-            return true;
-        }
-        return false;
+        $preparation->execute();
+
+        $updatedRows = $preparation->rowCount();
+
+        return ($updatedRows > 0);
     }
 }
