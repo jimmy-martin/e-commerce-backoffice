@@ -160,12 +160,25 @@ class Category extends CoreModel
     public function insert()
     {
         $pdo = Database::getPDO();
+
+        // on ecrit notre requete en utilisant des parametres nommés
         $sql = "
             INSERT INTO `category` (name, subtitle, picture)
-            VALUES ('{$this->name}', '{$this->subtitle}', '{$this->picture}')
+            VALUES (:name, :subtitle, :picture)
         ";
 
-        $insertedRows = $pdo->exec($sql);
+        // ensuite on prepare la requete
+        $preparation = $pdo->prepare($sql);
+
+        // on doit utiliser maintenant la methode execute() de PDO
+        $preparation->execute([
+            ':name' => $this->name,
+            ':subtitle' => $this->subtitle,
+            ':picture' => $this->picture
+        ]);
+
+        // contrairement a exec(), execute() ne retourne pas le nombre de lignes modifiees, on doit donc passer par la methode rowCount()
+        $insertedRows = $preparation->rowCount();
 
         if ($insertedRows > 0) {
             $this->id = $pdo->lastInsertId();
