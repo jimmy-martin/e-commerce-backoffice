@@ -217,4 +217,25 @@ class Category extends CoreModel
 
         return ($updatedRows > 0);
     }
+
+    /**
+     * Delete a category in database
+     * 
+     * @return bool
+     */
+    public function delete()
+    {
+        $pdo = Database::getPDO();
+        $sql = "DELETE FROM `category` WHERE `id` = :id";
+
+        $preparation = $pdo->prepare($sql);
+
+        $preparation->bindValue(':id', $this->id, PDO::PARAM_INT);
+
+        $preparation->execute();
+
+        $deletedRows = $preparation->rowCount();
+
+        return ($deletedRows > 0);
+    }
 }

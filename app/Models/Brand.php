@@ -148,6 +148,22 @@ class Brand extends CoreModel {
     }
 
     /**
+     * Delete a brand in database
+     * 
+     * @return bool
+     */
+    public function delete()
+    {
+        $pdo = Database::getPDO();
+        $sql = "DELETE FROM `brand` WHERE `id` = :id";
+        $preparation = $pdo->prepare($sql);
+        $preparation->bindValue(':id', $this->id, PDO::PARAM_INT);
+        $preparation->execute();
+        $deletedRows = $preparation->rowCount();
+        return ($deletedRows > 0);
+    }
+
+    /**
      * Get the value of name
      *
      * @return  string
