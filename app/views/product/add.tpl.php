@@ -50,7 +50,7 @@
     </div>
     <div class="form-group">
         <label for="category">Categorie</label>
-        <select class="custom-select" name="category" id="category" aria-describedby="categoryHelpBlock">
+        <select class="custom-select" name="category_id" id="category" aria-describedby="categoryHelpBlock">
             <option value="1">Détente</option>
             <option value="2">Au travail</option>
             <option value="3">Cérémonie</option>
@@ -61,7 +61,7 @@
     </div>
     <div class="form-group">
         <label for="brand">Marque</label>
-        <select  class="custom-select" name="brand" id="brand" aria-describedby="brandHelpBlock">
+        <select  class="custom-select" name="brand_id" id="brand" aria-describedby="brandHelpBlock">
             <option value="1">oCirage</option>
             <option value="2">BOOTstrap</option>
             <option value="3">Talonette</option>
@@ -72,7 +72,7 @@
     </div>
     <div class="form-group">
         <label for="type">Type</label>
-        <select class="custom-select" name="type" id="type" aria-describedby="typeHelpBlock">
+        <select class="custom-select" name="type_id" id="type" aria-describedby="typeHelpBlock">
             <option value="1">Chaussures de ville</option>
             <option value="2">Chaussures de sport</option>
             <option value="3">Tongs</option>
