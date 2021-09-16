@@ -137,9 +137,10 @@ class ProductController extends CoreController
     /**
      * Add a product into the database
      *
+     * @param $id product' id
      * @return void
      */
-    public function edit()
+    public function edit($id)
     {
         // dump($_POST);
 
@@ -185,7 +186,7 @@ class ProductController extends CoreController
         if (empty($errors)) {
 
 
-            $product = new Product();
+            $product = Product::find($id);
 
             $product->setName($name);
             $product->setDescription($description);
