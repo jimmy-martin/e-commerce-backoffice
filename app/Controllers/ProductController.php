@@ -28,6 +28,94 @@ class ProductController extends CoreController
      */
     public function add()
     {
-        $this->show('product/add');
+        if (isset($_GET) && array_key_exists('id', $_GET)) {
+            $product = Product::find($_GET['id']);
+            $this->show('product/add', [
+                'product' => $product
+            ]);
+        } else {
+            $this->show('product/add');
+        }
+    }
+
+    /**
+     * Add a product into the database
+     *
+     * @return void
+     */
+    public function create()
+    {
+        // dump($_POST);
+
+        $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
+        $description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_STRING);
+        $picture = filter_input(INPUT_POST, 'picture', FILTER_SANITIZE_STRING);
+        $price = filter_input(INPUT_POST, 'price', FILTER_VALIDATE_FLOAT);
+        $rate = filter_input(INPUT_POST, 'rate', FILTER_VALIDATE_INT);
+        $status = filter_input(INPUT_POST, 'status', FILTER_VALIDATE_INT);
+        $brand_id = filter_input(INPUT_POST, 'brand_id', FILTER_VALIDATE_INT);
+        $category_id = filter_input(INPUT_POST, 'category_id', FILTER_VALIDATE_INT);
+        $type_id = filter_input(INPUT_POST, 'type_id', FILTER_VALIDATE_INT);
+
+        $errors = [];
+        if (!$name) {
+            $errors[] = 'Nom absent ou incorrect';
+        }
+        if (!$description) {
+            $errors[] = 'Description absente ou incorrecte';
+        }
+        if (!$picture) {
+            $errors[] = 'URL de l\'image absente ou incorrecte';
+        }
+        if (!$price) {
+            $errors[] = 'Prix absent ou incorrect';
+        }
+        if (!$rate) {
+            $errors[] = 'Note absente ou incorrecte';
+        }
+        if ($status === false) {
+            $errors[] = 'Statut absent ou incorrect';
+        }
+        if ($category_id === false) {
+            $errors[] = 'Catégorie absente ou incorrecte';
+        }
+        if ($brand_id === false) {
+            $errors[] = 'Marque absente ou incorrecte';
+        }
+        if ($type_id === false) {
+            $errors[] = 'Type absent ou incorrect';
+        }
+
+        if (empty($errors)) {
+
+
+            $product = new Product();
+
+            $product->setName($name);
+            $product->setDescription($description);
+            $product->setPicture($picture);
+            $product->setPrice($price);
+            $product->setRate($rate);
+            $product->setStatus($status);
+            $product->setCategoryId($category_id);
+            $product->setBrandId($brand_id);
+            $product->setTypeId($type_id);
+
+            $result = $product->insert();
+
+            if ($result) {
+                header('Location: /product/list');
+                exit;
+            } else {
+                echo 'Erreur lors de l\'ajout de ce nouveau produit dans la BDD !';
+            }
+        } else {
+
+            // certaines données sont manquantes ou incorrectes
+            echo 'Certaines données sont manquantes ou incorrectes !';
+            foreach ($errors as $value) {
+                echo "<div>$value</div>";
+            }
+        }
     }
 }

@@ -89,6 +89,26 @@ $router->addRoutes([
             'controller' => '\App\Controllers\CategoryController'
         ],
         'category-add'
+    ],
+
+    [
+        'POST',
+        '/category/add',
+        [
+            'method' => 'create',
+            'controller' => '\App\Controllers\CategoryController'
+        ],
+        'category-create'
+    ],
+
+    [
+        'PUT',
+        '/category/add',
+        [
+            'method' => 'update',
+            'controller' => '\App\Controllers\CategoryController'
+        ],
+        'category-update'
     ]
 ]);
 
@@ -115,6 +135,26 @@ $router->addRoutes([
             'controller' => '\App\Controllers\ProductController'
         ],
         'product-add'
+    ],
+
+    [
+        'POST',
+        '/product/add',
+        [
+            'method' => 'create',
+            'controller' => '\App\Controllers\ProductController'
+        ],
+        'product-create'
+    ],
+
+    [
+        'PUT',
+        '/product/add',
+        [
+            'method' => 'update',
+            'controller' => '\App\Controllers\ProductController'
+        ],
+        'product-update'
     ]
 ]);
 
