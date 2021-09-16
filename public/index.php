@@ -158,13 +158,23 @@ $router->addRoutes([
     ],
 
     [
-        'PUT',
-        '/product/add',
+        'GET',
+        '/product/update/[i:id]',
         [
             'method' => 'update',
             'controller' => '\App\Controllers\ProductController'
         ],
         'product-update'
+    ],
+
+    [
+        'POST',
+        '/product/update/[i:id]',
+        [
+            'method' => 'edit',
+            'controller' => '\App\Controllers\ProductController'
+        ],
+        'product-edit'
     ]
 ]);
 
