@@ -112,7 +112,7 @@ $router->addRoutes([
     ],
 
     [
-        'PUT',
+        'POST',
         '/category/update/[i:id]',
         [
             'method' => 'edit',
