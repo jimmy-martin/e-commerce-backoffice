@@ -115,10 +115,10 @@ $router->addRoutes([
         'PUT',
         '/category/update/[i:id]',
         [
-            'method' => 'update',
+            'method' => 'edit',
             'controller' => '\App\Controllers\CategoryController'
         ],
-        'category-update'
+        'category-edit'
     ]
 ]);
 

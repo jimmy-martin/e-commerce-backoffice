@@ -94,12 +94,27 @@ class CategoryController extends CoreController
     }
 
     /**
-     * Update a category into the database
+     * Displays form to edit a category
      *
-     * @param int $id category' id
+     * @param $id category' id
      * @return void
      */
-    public function update()
+    public function update($id)
+    {
+        $category = Category::find($id);
+
+        $this->show('category/update', [
+            'category' => $category
+        ]);
+    }
+
+    /**
+     * Update a category into the database
+     *
+     * @param $id category' id
+     * @return void
+     */
+    public function edit()
     {
         $id = '';
         $name = '';
