@@ -79,7 +79,10 @@ class CategoryController extends CoreController
             $result = $category->insert();
 
             if ($result) {
-                header('Location: list');
+                header('Location: /category/list');
+                exit;
+            } else {
+                echo 'Erreur lors de l\'ajout de cette nouvelle catégorie dans la base de données!';
             }
 
         } else {
