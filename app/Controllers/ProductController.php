@@ -28,7 +28,7 @@ class ProductController extends CoreController
      */
     public function add()
     {
-        if(isset($_GET) && array_key_exists('id', $_GET)){
+        if (isset($_GET) && array_key_exists('id', $_GET)) {
             $product = Product::find($_GET['id']);
             $this->show('product/add', [
                 'product' => $product
@@ -47,58 +47,75 @@ class ProductController extends CoreController
     {
         // dump($_POST);
 
-        $name = '';
-        $description = '';
-        $picture = '';
-        $price = '';
-        $rate = '';
-        $status = '';
-        $category = '';
-        $brand = '';
-        $type = '';
+        $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
+        $description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_STRING);
+        $picture = filter_input(INPUT_POST, 'picture', FILTER_SANITIZE_STRING);
+        $price = filter_input(INPUT_POST, 'price', FILTER_VALIDATE_FLOAT);
+        $rate = filter_input(INPUT_POST, 'rate', FILTER_VALIDATE_INT);
+        $status = filter_input(INPUT_POST, 'status', FILTER_VALIDATE_INT);
+        $brand_id = filter_input(INPUT_POST, 'brand_id', FILTER_VALIDATE_INT);
+        $category_id = filter_input(INPUT_POST, 'category_id', FILTER_VALIDATE_INT);
+        $type_id = filter_input(INPUT_POST, 'type_id', FILTER_VALIDATE_INT);
 
-        $optionsIntValidate = ['options' => ['min_range' => 0]];
-
-        // Validation des donnees
-        if (
-            isset($_POST) &&
-            array_key_exists('name', $_POST) &&
-            array_key_exists('description', $_POST) &&
-            array_key_exists('picture', $_POST) &&
-            array_key_exists('price', $_POST) &&
-            array_key_exists('rate', $_POST) &&
-            array_key_exists('status', $_POST) &&
-            array_key_exists('category', $_POST) &&
-            array_key_exists('brand', $_POST) &&
-            array_key_exists('type', $_POST)
-        ) {
-            $name = filter_input(INPUT_POST, 'name');
-            $description = filter_input(INPUT_POST, 'description');
-            $picture = filter_input(INPUT_POST, 'picture');
-            $price = filter_input(INPUT_POST, 'price', FILTER_VALIDATE_FLOAT, $optionsIntValidate);
-            $rate = filter_input(INPUT_POST, 'rate', FILTER_VALIDATE_INT, $optionsIntValidate);
-            $status = filter_input(INPUT_POST, 'status', FILTER_VALIDATE_INT, $optionsIntValidate);
-            $category = filter_input(INPUT_POST, 'category', FILTER_VALIDATE_INT, $optionsIntValidate);
-            $brand = filter_input(INPUT_POST, 'brand', FILTER_VALIDATE_INT, $optionsIntValidate);
-            $type = filter_input(INPUT_POST, 'type', FILTER_VALIDATE_INT, $optionsIntValidate);
+        $errors = [];
+        if (!$name) {
+            $errors[] = 'Nom absent ou incorrect';
+        }
+        if (!$description) {
+            $errors[] = 'Description absente ou incorrecte';
+        }
+        if (!$picture) {
+            $errors[] = 'URL de l\'image absente ou incorrecte';
+        }
+        if (!$price) {
+            $errors[] = 'Prix absent ou incorrect';
+        }
+        if (!$rate) {
+            $errors[] = 'Note absente ou incorrecte';
+        }
+        if ($status === false) {
+            $errors[] = 'Statut absent ou incorrect';
+        }
+        if ($category_id === false) {
+            $errors[] = 'Catégorie absente ou incorrecte';
+        }
+        if ($brand_id === false) {
+            $errors[] = 'Marque absente ou incorrecte';
+        }
+        if ($type_id === false) {
+            $errors[] = 'Type absent ou incorrect';
         }
 
-        $product = new Product();
+        if (empty($errors)) {
 
-        $product->setName($name);
-        $product->setDescription($description);
-        $product->setPicture($picture);
-        $product->setPrice($price);
-        $product->setRate($rate);
-        $product->setStatus($status);
-        $product->setCategoryId($category);
-        $product->setBrandId($brand);
-        $product->setTypeId($type);
 
-        $result = $product->insert();
+            $product = new Product();
 
-        if ($result) {
-            header('Location: list');
+            $product->setName($name);
+            $product->setDescription($description);
+            $product->setPicture($picture);
+            $product->setPrice($price);
+            $product->setRate($rate);
+            $product->setStatus($status);
+            $product->setCategoryId($category_id);
+            $product->setBrandId($brand_id);
+            $product->setTypeId($type_id);
+
+            $inserted = $product->insert();
+
+            if ($inserted) {
+                header('Location: /product/list');
+                exit;
+            } else {
+                echo 'Erreur lors de l\'ajout de ce nouveau produit dans la BDD !';
+            }
+        } else {
+
+            // certaines données sont manquantes ou incorrectes
+            echo 'Certaines données sont manquantes ou incorrectes !';
+            foreach ($errors as $value) {
+                echo "<div>$value</div>";
+            }
         }
     }
 }
