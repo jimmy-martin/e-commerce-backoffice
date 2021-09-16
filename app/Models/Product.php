@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Utils\Database;
 use PDO;
+use Symfony\Component\VarDumper\Cloner\Data;
 
 /**
  * Une instance de Product = un produit dans la base de données
@@ -215,9 +216,25 @@ class Product extends CoreModel
 
         $preparation->execute();
 
-        $insertedRows = $preparation->rowCount();
+        $updatedRows = $preparation->rowCount();
       
-        return ($insertedRows > 0);
+        return ($updatedRows > 0);
+    }
+
+    /**
+     * Delete a product in database
+     * 
+     * @return bool
+     */
+    public function delete()
+    {
+        $pdo = Database::getPDO();
+        $sql = "DELETE FROM `product` WHERE `id` = :id";
+        $preparation = $pdo->prepare($sql);
+        $preparation->bindValue(':id', $this->id, PDO::PARAM_INT);
+        $preparation->execute();
+        $deletedRows = $preparation->rowCount();
+        return ($deletedRows > 0);
     }
 
     /**

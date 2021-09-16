@@ -93,29 +93,26 @@ class Brand extends CoreModel {
      */
     public function insert()
     {
-        // Récupération de l'objet PDO représentant la connexion à la DB
+        
         $pdo = Database::getPDO();
-
-        // Ecriture de la requête INSERT INTO
         $sql = "
             INSERT INTO `brand` (name, footer_order)
-            VALUES ('{$this->name}', {$this->footer_order})
+            VALUES (:name, :footer_order)
         ";
 
-        // Execution de la requête d'insertion (exec, pas query)
-        $insertedRows = $pdo->exec($sql);
+        $preparation = $pdo->prepare($sql);
 
-        // Si au moins une ligne ajoutée
+        $preparation->bindValue(':name', $this->name, PDO::PARAM_STR);
+        $preparation->bindValue(':footer_order', $this->footer_order, PDO::PARAM_INT);
+
+        $preparation->execute();
+
+        $insertedRows = $preparation->rowCount();
+
         if ($insertedRows > 0) {
-            // Alors on récupère l'id auto-incrémenté généré par MySQL
             $this->id = $pdo->lastInsertId();
-
-            // On retourne VRAI car l'ajout a parfaitement fonctionné
             return true;
-            // => l'interpréteur PHP sort de cette fonction car on a retourné une donnée
         }
-        
-        // Si on arrive ici, c'est que quelque chose n'a pas bien fonctionné => FAUX
         return false;
     }
 
@@ -127,24 +124,43 @@ class Brand extends CoreModel {
      */
     public function update()
     {
-        // Récupération de l'objet PDO représentant la connexion à la DB
         $pdo = Database::getPDO();
-
-        // Ecriture de la requête UPDATE
+        
         $sql = "
             UPDATE `brand`
-            SET
-                name = '{$this->name}',
-                footer_order = {$this->footer_order},
-                updated_at = NOW()
-            WHERE id = {$this->id}
+            SET `name` = :name,
+                `footer_order` = :footer_order,
+                `updated_at` = NOW()
+            WHERE `id` = :id
         ";
 
-        // Execution de la requête de mise à jour (exec, pas query)
-        $updatedRows = $pdo->exec($sql);
+        $preparation = $pdo->prepare($sql);
 
-        // On retourne VRAI, si au moins une ligne ajoutée
+        $preparation->bindValue(':name', $this->name, PDO::PARAM_STR);
+        $preparation->bindValue(':footer_order', $this->footer_order, PDO::PARAM_INT);
+        $preparation->bindValue(':id', $this->id, PDO::PARAM_INT);
+
+        $preparation->execute();
+
+        $updatedRows = $preparation->rowCount();
+
         return ($updatedRows > 0);
+    }
+
+    /**
+     * Delete a brand in database
+     * 
+     * @return bool
+     */
+    public function delete()
+    {
+        $pdo = Database::getPDO();
+        $sql = "DELETE FROM `brand` WHERE `id` = :id";
+        $preparation = $pdo->prepare($sql);
+        $preparation->bindValue(':id', $this->id, PDO::PARAM_INT);
+        $preparation->execute();
+        $deletedRows = $preparation->rowCount();
+        return ($deletedRows > 0);
     }
 
     /**
