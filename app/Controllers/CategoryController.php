@@ -49,32 +49,44 @@ class CategoryController extends CoreController
     {
         // dump($_POST);
 
-        $name = '';
-        $subtitle = '';
-        $picture = '';
+        // filter_input fait déja le test pour savoir si la variables existe bien, etc
+        // donc pas besoin de verifier isset etc.
+        $name = filter_input(INPUT_POST, 'name');
+        $subtitle = filter_input(INPUT_POST, 'subtitle');
+        $picture = filter_input(INPUT_POST, 'picture');
 
-        // Validation des donnees
-        if (
-            isset($_POST) &&
-            array_key_exists('name', $_POST) &&
-            array_key_exists('subtitle', $_POST) &&
-            array_key_exists('picture', $_POST)
-        ) {
-            $name = filter_input(INPUT_POST, 'name');
-            $subtitle = filter_input(INPUT_POST, 'subtitle');
-            $picture = filter_input(INPUT_POST, 'picture');
+        // on vérifie la validité des données reçues (gestion d'erreur)
+        $errors = []; // tableau vide, pour le moment
+        if (!$name) {
+            $errors[] = 'Nom absent ou incorrect';
+        }
+        if (!$subtitle) {
+            $errors[] = 'Sous-titre absent ou incorrect';
+        }
+        if (!$picture) {
+            $errors[] = 'URL de l\'image absente ou incorrecte';
         }
 
-        $category = new Category();
+        // je verifie si mon tableau est vide
+        if (empty($errors)) {
 
-        $category->setName($name);
-        $category->setSubtitle($subtitle);
-        $category->setPicture($picture);
+            $category = new Category();
 
-        $result = $category->insert();
+            $category->setName($name);
+            $category->setSubtitle($subtitle);
+            $category->setPicture($picture);
 
-        if ($result) {
-            header('Location: list');
+            $result = $category->insert();
+
+            if ($result) {
+                header('Location: list');
+            }
+
+        } else {
+            echo 'Certaines données sont manquantes ou incorrectes !';
+            foreach ($errors as $value) {
+                echo "<div>$value</div>";
+            }
         }
     }
 
@@ -106,17 +118,16 @@ class CategoryController extends CoreController
             $id = (int)$_GET['id'];
 
             $category = Category::find($id);
-    
+
             $category->setName($name);
             $category->setSubtitle($subtitle);
             $category->setPicture($picture);
-    
+
             $result = $category->update();
-    
+
             if ($result) {
                 header('Location: list');
             }
         }
-
     }
 }
