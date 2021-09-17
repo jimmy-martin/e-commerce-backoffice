@@ -68,7 +68,7 @@ class CategoryController extends CoreController
             $category->setSubtitle($subtitle);
             $category->setPicture($picture);
 
-            $result = $category->insert();
+            $result = $category->save();
 
             if ($result) {
                 header('Location: /category/list');
@@ -132,7 +132,7 @@ class CategoryController extends CoreController
             $category->setSubtitle($subtitle);
             $category->setPicture($picture);
 
-            $result = $category->update();
+            $result = $category->save();
 
             if ($result) {
                 header('Location: /category/list');
