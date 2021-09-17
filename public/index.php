@@ -80,7 +80,7 @@ $router->addRoutes([
         ],
         'category-list'
     ],
-
+    // Affichage formulaire ajout
     [
         'GET',
         '/category/add',
@@ -90,7 +90,7 @@ $router->addRoutes([
         ],
         'category-add'
     ],
-
+    // Recuperation données formulaire ajout
     [
         'POST',
         '/category/add',
@@ -100,7 +100,7 @@ $router->addRoutes([
         ],
         'category-create'
     ],
-
+    // Affichage formulaire update
     [
         'GET',
         '/category/update/[i:id]',
@@ -110,7 +110,7 @@ $router->addRoutes([
         ],
         'category-update'
     ],
-
+    // Recuperation donnees formulaire update
     [
         'POST',
         '/category/update/[i:id]',
@@ -119,6 +119,16 @@ $router->addRoutes([
             'controller' => '\App\Controllers\CategoryController'
         ],
         'category-edit'
+    ],
+
+    [
+        'GET',
+        '/category/delete/[i:id]',
+        [
+            'method' => 'delete',
+            'controller' => '\App\Controllers\CategoryController'
+        ],
+        'category-delete'
     ]
 ]);
 
@@ -136,7 +146,7 @@ $router->addRoutes([
         ],
         'product-list'
     ],
-
+    // Affichage formulaire ajout
     [
         'GET',
         '/product/add',
@@ -146,7 +156,7 @@ $router->addRoutes([
         ],
         'product-add'
     ],
-
+    // Recuperation donnees formulaire ajout
     [
         'POST',
         '/product/add',
@@ -156,7 +166,7 @@ $router->addRoutes([
         ],
         'product-create'
     ],
-
+    // Affichage formulaire update
     [
         'GET',
         '/product/update/[i:id]',
@@ -166,7 +176,7 @@ $router->addRoutes([
         ],
         'product-update'
     ],
-
+    // Recuperation donnees formulaire update
     [
         'POST',
         '/product/update/[i:id]',
@@ -175,8 +185,27 @@ $router->addRoutes([
             'controller' => '\App\Controllers\ProductController'
         ],
         'product-edit'
+    ],
+
+    [
+        'GET',
+        '/product/delete/[i:id]',
+        [
+            'method' => 'delete',
+            'controller' => '\App\Controllers\ProductController'
+        ],
+        'product-delete'
     ]
 ]);
+
+// -----------------------------------------------
+// MARQUES
+// -----------------------------------------------
+
+
+// -----------------------------------------------
+// TYPES
+// -----------------------------------------------
 
 /* -------------
 --- DISPATCH ---

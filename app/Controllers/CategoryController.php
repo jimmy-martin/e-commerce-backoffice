@@ -147,4 +147,29 @@ class CategoryController extends CoreController
             }
         }
     }
+
+    /**
+     * Delete a category into the database
+     *
+     * @param $id category' id
+     * @return void
+     */
+    public function delete($id)
+    {
+        $category = Category::find($id);
+
+        if($category){
+
+            $result = $category->delete();
+    
+            if ($result) {
+                header('Location: /category/list');
+                exit;
+            } else {
+                echo 'Une erreur s\'est produite !';
+            }
+        } else {
+            $this->show('error/err404');
+        }
+    }
 }
