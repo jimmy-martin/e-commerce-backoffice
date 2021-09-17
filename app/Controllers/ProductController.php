@@ -136,20 +136,13 @@ class ProductController extends CoreController
         $types = Type::findAll();
         $brands = Brand::findAll();
         $categories = Category::findAll();
-
-        $productType = Type::find($product->getTypeId());
-        $productBrand = Brand::find($product->getBrandId());
-        $productCategory = Category::find($product->getCategoryId());
         
 
         $this->show('product/update', [
             'product' => $product,
             'types' => $types,
             'brands' => $brands,
-            'categories' => $categories,
-            'productType' => $productType,
-            'productBrand' => $productBrand,
-            'productCategory' => $productCategory
+            'categories' => $categories
         ]);
     }
 
