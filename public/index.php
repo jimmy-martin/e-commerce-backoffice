@@ -207,6 +207,32 @@ $router->addRoutes([
 // TYPES
 // -----------------------------------------------
 
+// -----------------------------------------------
+// CONNEXION
+// -----------------------------------------------
+
+$router->addRoutes([
+    [
+        'GET',
+        '/connection',
+        [
+            'method' => 'connection',
+            'controller' => '\App\Controllers\LoginController'
+        ],
+        'login-connection'
+    ],
+
+    [
+        'POST',
+        '/connection',
+        [
+            'method' => 'authenticate',
+            'controller' => '\App\Controllers\LoginController'
+        ],
+        'login-authenticate'
+    ]
+]);
+
 /* -------------
 --- DISPATCH ---
 --------------*/

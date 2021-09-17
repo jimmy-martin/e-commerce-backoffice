@@ -53,7 +53,7 @@ abstract class CoreModel {
      * On déclare les méthodes abstraites : 
      * Il sera obligatoire de les créer dans les classes enfant
      */
-    abstract static public function find($id);
+    abstract static public function find(int $id);
     abstract static public function findAll();
     abstract public function insert();
     abstract public function update();
