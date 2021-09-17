@@ -15,7 +15,7 @@ class AppUser extends CoreModel
     private $status;
 
     /**
-     * Find an user
+     * Find an user by its id
      *
      * @param int $id user' id
      * @return AppUser
@@ -24,8 +24,25 @@ class AppUser extends CoreModel
     {
         $pdo = Database::getPDO();
         $sql = 'SELECT *
-                FROM brand
-                WHERE id = ' . $userId
+                FROM `app_user`
+                WHERE `id` = ' . $userId
+        ;
+        $pdoStatement = $pdo->query($sql);
+        return $pdoStatement->fetchObject(self::class);
+    }
+
+    /**
+     * Find an user by its email
+     *
+     * @param string $email user' email
+     * @return AppUser
+     */
+    static public function findByEmail($email)
+    {
+        $pdo = Database::getPDO();
+        $sql = "SELECT *
+                FROM `app_user`
+                WHERE `email` = '" . $email . "'"
         ;
         $pdoStatement = $pdo->query($sql);
         return $pdoStatement->fetchObject(self::class);
