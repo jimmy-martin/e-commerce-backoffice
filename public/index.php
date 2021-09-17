@@ -185,6 +185,16 @@ $router->addRoutes([
             'controller' => '\App\Controllers\ProductController'
         ],
         'product-edit'
+    ],
+
+    [
+        'GET',
+        '/product/delete/[i:id]',
+        [
+            'method' => 'delete',
+            'controller' => '\App\Controllers\ProductController'
+        ],
+        'product-delete'
     ]
 ]);
 

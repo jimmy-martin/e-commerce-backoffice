@@ -227,4 +227,29 @@ class ProductController extends CoreController
             }
         }
     }
+
+    /**
+     * Delete a product into the database
+     *
+     * @param $id product' id
+     * @return void
+     */
+    public function delete($id)
+    {
+        $product = Product::find($id);
+
+        if($product){
+
+            $result = $product->delete();
+    
+            if ($result) {
+                header('Location: /product/list');
+                exit;
+            } else {
+                echo 'Une erreur s\'est produite !';
+            }
+        } else {
+            $this->show('error/err404');
+        }
+    }
 }
