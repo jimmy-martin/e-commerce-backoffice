@@ -8,7 +8,7 @@
     </div>
     <div class="form-group">
         <label for="description">Description</label>
-        <input type="text" class="form-control" name="description" id="description" placeholder="Sous-titre" aria-describedby="descriptionHelpBlock" value="<?= $product->getDescription() ?>">
+        <input type="text" class="form-control" name="description" id="description" placeholder="Description du produit" aria-describedby="descriptionHelpBlock" value="<?= $product->getDescription() ?>">
         <small id="subtitleHelpBlock" class="form-text text-muted">
             La description du produit
         </small>
