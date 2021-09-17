@@ -29,15 +29,7 @@ class CategoryController extends CoreController
      */
     public function add()
     {
-        $category = '';
-        // Je vérifie si $_GET est vide et je l'inclue aux variables accessibles a ma vue si besoin sinon je ne les envoie pas
-        if (isset($_GET) && array_key_exists('id', $_GET)) {
-            $category = Category::find($_GET['id']);
-        }
-
-        $this->show('category/add', [
-            'category' => $category
-        ]);
+        $this->show('category/add');
     }
 
     /**
@@ -116,7 +108,7 @@ class CategoryController extends CoreController
     public function edit($id)
     {
         // dump($id);
-        
+
         $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
         $subtitle = filter_input(INPUT_POST, 'subtitle', FILTER_SANITIZE_STRING);
         $picture = filter_input(INPUT_POST, 'picture', FILTER_SANITIZE_STRING);
@@ -141,7 +133,7 @@ class CategoryController extends CoreController
             $category->setPicture($picture);
 
             $result = $category->update();
-            
+
             if ($result) {
                 header('Location: /category/list');
                 exit;
