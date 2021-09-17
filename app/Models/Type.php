@@ -83,6 +83,82 @@ class Type extends CoreModel {
     }
 
     /**
+     * Insert a type in database
+     * 
+     * @return bool
+     */
+    public function insert()
+    {
+        $pdo = Database::getPDO();
+
+        $sql = "
+            INSERT INTO `type` (name, footer_order)
+            VALUES (:name, :footer_order)
+        ";
+
+        $preparation = $pdo->prepare($sql);
+
+        $preparation->bindValue(':name', $this->name, PDO::PARAM_STR);
+        $preparation->bindValue(':footer_order', $this->footer_order, PDO::PARAM_INT);
+
+        $preparation->execute();
+
+        $insertedRows = $preparation->rowCount();
+
+        if ($insertedRows > 0) {
+            $this->id = $pdo->lastInsertId();
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Insert a type in database
+     * 
+     * @return bool
+     */
+    public function update()
+    {
+        $pdo = Database::getPDO();
+        
+        $sql = "
+            UPDATE `type`
+            SET `name` = :name,
+                `footer_order` = :footer_order,
+                `updated_at` = NOW()
+            WHERE `id` = :id
+        ";
+
+        $preparation = $pdo->prepare($sql);
+
+        $preparation->bindValue(':name', $this->name, PDO::PARAM_STR);
+        $preparation->bindValue(':footer_order', $this->footer_order, PDO::PARAM_INT);
+        $preparation->bindValue(':id', $this->id, PDO::PARAM_INT);
+
+        $preparation->execute();
+
+        $updatedRows = $preparation->rowCount();
+
+        return ($updatedRows > 0);
+    }
+
+    /**
+     * Delete a type in database
+     * 
+     * @return bool
+     */
+    public function delete()
+    {
+        $pdo = Database::getPDO();
+        $sql = "DELETE FROM `type` WHERE `id` = :id";
+        $preparation = $pdo->prepare($sql);
+        $preparation->bindValue(':id', $this->id, PDO::PARAM_INT);
+        $preparation->execute();
+        $deletedRows = $preparation->rowCount();
+        return ($deletedRows > 0);
+    }
+
+    /**
      * Get the value of name
      *
      * @return  string

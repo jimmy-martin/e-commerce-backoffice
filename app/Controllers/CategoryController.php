@@ -29,15 +29,7 @@ class CategoryController extends CoreController
      */
     public function add()
     {
-        $category = '';
-        // Je vérifie si $_GET est vide et je l'inclue aux variables accessibles a ma vue si besoin sinon je ne les envoie pas
-        if (isset($_GET) && array_key_exists('id', $_GET)) {
-            $category = Category::find($_GET['id']);
-        }
-
-        $this->show('category/add', [
-            'category' => $category
-        ]);
+        $this->show('category/add');
     }
 
     /**
@@ -84,7 +76,6 @@ class CategoryController extends CoreController
             } else {
                 echo 'Erreur lors de l\'ajout de cette nouvelle catégorie dans la base de données!';
             }
-
         } else {
             echo 'Certaines données sont manquantes ou incorrectes !';
             foreach ($errors as $value) {
@@ -94,31 +85,46 @@ class CategoryController extends CoreController
     }
 
     /**
-     * Update a category into the database
+     * Displays form to edit a category
      *
-     * @param int $id category' id
+     * @param $id category' id
      * @return void
      */
-    public function update()
+    public function update($id)
     {
-        $id = '';
-        $name = '';
-        $subtitle = '';
-        $picture = '';
+        $category = Category::find($id);
 
-        if (
-            isset($_POST) &&
-            array_key_exists('name', $_POST) &&
-            array_key_exists('subtitle', $_POST) &&
-            array_key_exists('picture', $_POST)
-        ) {
-            $name = filter_input(INPUT_POST, 'name');
-            $subtitle = filter_input(INPUT_POST, 'subtitle');
-            $picture = filter_input(INPUT_POST, 'picture');
+        $this->show('category/update', [
+            'category' => $category
+        ]);
+    }
+
+    /**
+     * Update a category into the database
+     *
+     * @param $id category' id
+     * @return void
+     */
+    public function edit($id)
+    {
+        // dump($id);
+
+        $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
+        $subtitle = filter_input(INPUT_POST, 'subtitle', FILTER_SANITIZE_STRING);
+        $picture = filter_input(INPUT_POST, 'picture', FILTER_SANITIZE_STRING);
+
+        $errors = [];
+        if (!$name) {
+            $errors[] = 'Nom absent ou incorrect';
+        }
+        if (!$subtitle) {
+            $errors[] = 'Sous-titre absent ou incorrect';
+        }
+        if (!$picture) {
+            $errors[] = 'URL de l\'image absente ou incorrecte';
         }
 
-        if (isset($_GET) && array_key_exists('id', $_GET)) {
-            $id = (int)$_GET['id'];
+        if (empty($errors)) {
 
             $category = Category::find($id);
 
@@ -129,7 +135,15 @@ class CategoryController extends CoreController
             $result = $category->update();
 
             if ($result) {
-                header('Location: list');
+                header('Location: /category/list');
+                exit;
+            } else {
+                echo 'Erreur lors de la modification de la catégorie dans la base de données !';
+            }
+        } else {
+            echo 'Certaines données sont manquantes ou incorrectes !';
+            foreach ($errors as $value) {
+                echo "<div>$value</div>";
             }
         }
     }

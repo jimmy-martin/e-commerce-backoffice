@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Utils\Database;
 use PDO;
+use Symfony\Component\VarDumper\Cloner\Data;
 
 /**
  * Une instance de Product = un produit dans la base de données
@@ -175,6 +176,65 @@ class Product extends CoreModel
             return true;
         }
         return false;
+    }
+
+    /**
+     * Update a product in database
+     * 
+     * @return bool
+     */
+    public function update()
+    {
+        $pdo = Database::getPDO();
+        $sql = "
+            UPDATE `product`
+            SET `name` = :name,
+                `description` = :description,
+                `picture` = :picture,
+                `price` = :price,
+                `rate` = :rate,
+                `status` = :status,
+                `brand_id` = :brand_id,
+                `category_id` = :category_id,
+                `type_id` = :type_id,
+                `updated_at` = NOW()
+            WHERE `id` = :id
+        ";
+
+        $preparation = $pdo->prepare($sql);
+
+        $preparation->bindValue(':name', $this->name, PDO::PARAM_STR);
+        $preparation->bindValue(':description', $this->description, PDO::PARAM_STR);
+        $preparation->bindValue(':picture', $this->picture, PDO::PARAM_STR);
+        $preparation->bindValue(':price', $this->price, PDO::PARAM_INT);
+        $preparation->bindValue(':rate', $this->rate, PDO::PARAM_INT);
+        $preparation->bindValue(':status', $this->status, PDO::PARAM_INT);
+        $preparation->bindValue(':brand_id', $this->brand_id, PDO::PARAM_INT);
+        $preparation->bindValue(':category_id', $this->category_id, PDO::PARAM_INT);
+        $preparation->bindValue(':type_id', $this->type_id, PDO::PARAM_INT);
+        $preparation->bindValue(':id', $this->id, PDO::PARAM_INT);
+
+        $preparation->execute();
+
+        $updatedRows = $preparation->rowCount();
+      
+        return ($updatedRows > 0);
+    }
+
+    /**
+     * Delete a product in database
+     * 
+     * @return bool
+     */
+    public function delete()
+    {
+        $pdo = Database::getPDO();
+        $sql = "DELETE FROM `product` WHERE `id` = :id";
+        $preparation = $pdo->prepare($sql);
+        $preparation->bindValue(':id', $this->id, PDO::PARAM_INT);
+        $preparation->execute();
+        $deletedRows = $preparation->rowCount();
+        return ($deletedRows > 0);
     }
 
     /**
