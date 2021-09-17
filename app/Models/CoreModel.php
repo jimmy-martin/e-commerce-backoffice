@@ -58,4 +58,23 @@ abstract class CoreModel {
     abstract public function insert();
     abstract public function update();
     abstract public function delete();
+
+    /**
+     * Allows to save the current model in the database
+     * - update if already exists
+     * - create if not already exists
+     *
+     * @return void
+     */
+    public function save()
+    {
+        // si l'instance a une propriété 'id
+        if ($this->getId() > 0){
+            // alors on le met a jour
+            return $this->update();
+        } else {
+            // sinon on l'ajoute
+            return $this->insert();
+        }
+    }
 }

@@ -2,7 +2,10 @@
 
 namespace App\Controllers;
 
+use App\Models\Brand;
+use App\Models\Category;
 use App\Models\Product;
+use App\Models\Type;
 
 class ProductController extends CoreController
 {
@@ -28,7 +31,15 @@ class ProductController extends CoreController
      */
     public function add()
     {
-        $this->show('product/add');
+        $types = Type::findAll();
+        $brands = Brand::findAll();
+        $categories = Category::findAll();
+
+        $this->show('product/add' , [
+            'types' => $types,
+            'brands' => $brands,
+            'categories' => $categories
+        ]);
     }
 
     /**
@@ -94,7 +105,7 @@ class ProductController extends CoreController
             $product->setBrandId($brand_id);
             $product->setTypeId($type_id);
 
-            $result = $product->insert();
+            $result = $product->save();
 
             if ($result) {
                 header('Location: /product/list');
@@ -122,8 +133,23 @@ class ProductController extends CoreController
     {
         $product = Product::find($id);
 
+        $types = Type::findAll();
+        $brands = Brand::findAll();
+        $categories = Category::findAll();
+
+        $productType = Type::find($product->getTypeId());
+        $productBrand = Brand::find($product->getBrandId());
+        $productCategory = Category::find($product->getCategoryId());
+        
+
         $this->show('product/update', [
-            'product' => $product
+            'product' => $product,
+            'types' => $types,
+            'brands' => $brands,
+            'categories' => $categories,
+            'productType' => $productType,
+            'productBrand' => $productBrand,
+            'productCategory' => $productCategory
         ]);
     }
 
@@ -191,7 +217,7 @@ class ProductController extends CoreController
             $product->setBrandId($brand_id);
             $product->setTypeId($type_id);
 
-            $result = $product->update();
+            $result = $product->save();
 
             if ($result) {
                 header('Location: /product/list');
