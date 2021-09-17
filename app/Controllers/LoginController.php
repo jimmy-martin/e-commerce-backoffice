@@ -30,7 +30,11 @@ class LoginController extends CoreController
 
             // Jé verifie si j'ai bien un utilisateur avec cet email et ce mot de passe
             if($user && $user->getPassword() === $password){
-                echo 'Tout est bon !';
+                // echo 'Tout est bon !';
+                $_SESSION['userId'] = $user->getId();
+                $_SESSION['userObject'] = $user;
+                header('Location: /');
+                exit;
             } else {
                 echo 'L\'email ou le mot de passe renseignés sont incorrects !';
             }
