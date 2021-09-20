@@ -259,7 +259,17 @@ $router->addRoutes([
             'controller' => '\App\Controllers\UserController'
         ],
         'user-list'
-    ]
+    ],
+
+    [
+        'GET',
+        '/user/add',
+        [
+            'method' => 'add',
+            'controller' => '\App\Controllers\UserController'
+        ],
+        'user-add'
+    ],
 ]);
 
 /* -------------

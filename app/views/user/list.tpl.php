@@ -1,4 +1,4 @@
-<a href="#" class="btn btn-success float-right">Ajouter</a>
+<a href="<?= $router->generate('user-add') ?>" class="btn btn-success float-right">Ajouter</a>
 <h2>Liste des utilisateurs</h2>
 <table class="table table-hover mt-4">
     <thead>
