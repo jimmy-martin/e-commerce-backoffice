@@ -59,7 +59,7 @@ class AppUser extends CoreModel
     static public function findAll()
     {
         $pdo = Database::getPDO();
-        $sql = 'SELECT * FROM `brand`';
+        $sql = 'SELECT * FROM `app_user`';
 
         $pdoStatement = $pdo->prepare($sql);
         $pdoStatement->execute();
