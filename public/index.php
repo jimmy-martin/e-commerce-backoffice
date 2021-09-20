@@ -234,7 +234,17 @@ $router->addRoutes([
             'controller' => '\App\Controllers\LoginController'
         ],
         'login-authenticate'
-    ]
+    ],
+
+    [
+        'GET',
+        '/logout',
+        [
+            'method' => 'disconnect',
+            'controller' => '\App\Controllers\LoginController'
+        ],
+        'login-disconnect'
+    ],
 ]);
 
 /* -------------
