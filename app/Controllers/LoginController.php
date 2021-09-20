@@ -38,6 +38,7 @@ class LoginController extends CoreController
             $this->show('login/form', [
                 'errors' => $errors
             ]);
+            exit;
         }
 
         $user = AppUser::findByEmail($email);
@@ -62,6 +63,7 @@ class LoginController extends CoreController
             $this->show('login/form', [
                 'errors' => $errors
             ]);
+            exit;
         }
     }
 
