@@ -1,6 +1,14 @@
 <a href="<?= $router->generate('user-list') ?>" class="btn btn-success float-right">Retour</a>
 <h2>Ajouter un utilisateur</h2>
 
+<div class="alert">
+  <?php if (!empty($errors)) : ?>
+    <?php foreach ($errors as $error) : ?>
+      <p><?= $error ?></p>
+    <?php endforeach; ?>
+  <?php endif; ?>
+</div>
+
 <form action="" method="POST" class="mt-5">
     <div class="form-group">
         <label for="lastname">Nom</label>
@@ -20,16 +28,16 @@
     </div>
     <div class="form-group">
         <label for="status">Status</label>
-        <select class="custom-select" name="status" id="status" aria-describedby="brandHelpBlock">
-                <option value="1">Actif</option>
-                <option value="2">Désactivé / Bloqué</option>
+        <select class="custom-select" name="status" id="status">
+            <option value="1" selected>Actif</option>
+            <option value="2">Désactivé / Bloqué</option>
         </select>
     </div>
     <div class="form-group">
         <label for="role">Role</label>
-        <select class="custom-select" name="role" id="role" aria-describedby="brandHelpBlock">
+        <select class="custom-select" name="role" id="role">
                 <option value="admin">Admin</option>
-                <option value="catalog-manager">Catalog manager</option>
+                <option value="catalog-manager" selected>Catalog manager</option>
         </select>
     </div>
     <button type="submit" class="btn btn-primary btn-block mt-5">Valider</button>

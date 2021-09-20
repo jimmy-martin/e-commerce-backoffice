@@ -270,6 +270,16 @@ $router->addRoutes([
         ],
         'user-add'
     ],
+
+    [
+        'POST',
+        '/user/add',
+        [
+            'method' => 'create',
+            'controller' => '\App\Controllers\UserController'
+        ],
+        'user-create'
+    ],
 ]);
 
 /* -------------
