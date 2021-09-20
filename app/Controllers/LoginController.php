@@ -39,10 +39,10 @@ class LoginController extends CoreController
                 echo 'L\'email ou le mot de passe renseignés sont incorrects !';
             }
         } else {
-            echo 'Certaines données sont manquantes ou incorrectes !';
-            foreach ($errors as $value) {
-                echo "<div>$value</div>";
-            }
+            
+            $this->show('login/form', [
+                'errors' => $errors
+            ]);
         }
     }
 }
