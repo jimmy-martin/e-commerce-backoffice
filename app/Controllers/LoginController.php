@@ -28,27 +28,30 @@ class LoginController extends CoreController
 
         $errors = [];
         if (!$email) {
-            $errors[] = 'Email absent ou incorrect';
+            $errors[] = 'Email non renseigné';
         }
         if (!$password) {
-            $errors[] = 'Mot de passe absent ou incorrect';
+            $errors[] = 'Mot de passe non renseigné';
         }
 
-        if (empty($errors)){
-            $user = AppUser::findByEmail($email);
+        $user = AppUser::findByEmail($email);
 
-            // Jé verifie si j'ai bien un utilisateur avec cet email et ce mot de passe
-            if($user && $user->getPassword() === $password){
-                // echo 'Tout est bon !';
-                $_SESSION['userId'] = $user->getId();
-                $_SESSION['userObject'] = $user;
-                header('Location: /');
-                exit;
-            } else {
-                echo 'L\'email ou le mot de passe renseignés sont incorrects !';
-            }
+        if ($user) {
+            // Jé verifie si l'utilisateur que j'ai trouve a le meme mot de passe que celui rentre par l'utilisateur dans le formulaire
+            $isPassCorrect = password_verify($password, $user->getPassword());
         } else {
+            $isPassCorrect = false;
+        }
 
+        if (empty($errors) && $isPassCorrect) {
+            $_SESSION['userId'] = $user->getId();
+            $_SESSION['userObject'] = $user;
+            header('Location: /');
+            exit;
+        } else {
+            $errors = [
+                'L\'email ou le mot de passe renseignés sont incorrects !'
+            ];
             $this->show('login/form', [
                 'errors' => $errors
             ]);
