@@ -6,11 +6,21 @@ use App\Models\AppUser;
 
 class LoginController extends CoreController
 {
+    /**
+     * Afficher le formulaire de connexion
+     *
+     * @return void
+     */
     public function connect()
     {
         $this->show('login/form');
     }
 
+    /**
+     * Récupération des données du formulaire
+     *
+     * @return void
+     */
     public function authenticate()
     {
         $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
@@ -45,6 +55,11 @@ class LoginController extends CoreController
         }
     }
 
+    /**
+     * Déconnecte l'utilisateur
+     *
+     * @return void
+     */
     public function disconnect()
     {
         // TODO
