@@ -280,6 +280,16 @@ $router->addRoutes([
         ],
         'user-create'
     ],
+
+    [
+        'GET',
+        '/user/delete/[i:id]',
+        [
+            'method' => 'delete',
+            'controller' => '\App\Controllers\UserController'
+        ],
+        'user-delete'
+    ]
 ]);
 
 /* -------------

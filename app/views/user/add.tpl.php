@@ -24,7 +24,17 @@
     </div>
     <div class="form-group">
         <label for="password">Mot de passe</label>
-        <input type="password" class="form-control" name="password" id="password" placeholder="Mot de passe">
+        <input type="password" class="form-control" name="password" id="password" placeholder="Mot de passe"aria-describedby="passwordHelpBlock">
+        <small id="passwordHelpBlock" class="form-text text-muted">
+            Le mot de passe doit contenir:
+            <ul>
+                <li>au moins 8 caractères</li>
+                <li>au moins une lettre en minuscule</li>
+                <li>au moins une lettre en majuscule</li>
+                <li>au moins un chiffre</li>
+                <li>au moins un caractère spécial ('_', '-', '|', '%', '&', '*', '=', '@', '$')</li>
+            </ul>
+        </small>
     </div>
     <div class="form-group">
         <label for="status">Status</label>
