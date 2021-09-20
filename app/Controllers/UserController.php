@@ -109,7 +109,7 @@ class UserController extends CoreController
      */
     public function delete($id)
     {
-        $this->checkAuthorization(['admin', 'catalog-manager']);
+        $this->checkAuthorization(['admin']);
 
         $user = AppUser::find($id);
 
