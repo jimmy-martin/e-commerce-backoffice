@@ -50,6 +50,19 @@ class UserController extends CoreController
         $status = filter_input(INPUT_POST, 'status', FILTER_VALIDATE_INT);
         $role = filter_input(INPUT_POST, 'role', FILTER_SANITIZE_STRING);
 
+        // On va imposer un mot de passe avec des caracteres et une longueur spécifiques
+        /* 
+        On veut au moins:
+        - une lettre en minuscule
+        - une lettre en majuscule
+        - un chiffre
+        - un caractère spécial
+        - 8 caractères
+        */ 
+        $regex = "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/m";
+
+        $password = filter_var($password, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => $regex]]);
+
         $errors = [];
         if (!$lastname) {
             $errors[] = 'Nom de famille absent ou incorrect';
@@ -98,6 +111,33 @@ class UserController extends CoreController
                 'errors' => $errors
             ]);
             exit;
+        }
+    }
+
+    /**
+     * Delete an user into the database
+     *
+     * @param $id user' id
+     * @return void
+     */
+    public function delete($id)
+    {
+        $this->checkAuthorization(['admin']);
+
+        $user = AppUser::find($id);
+
+        if($user){
+
+            $result = $user->delete();
+    
+            if ($result) {
+                header('Location: /user/list');
+                exit;
+            } else {
+                echo 'Une erreur s\'est produite !';
+            }
+        } else {
+            $this->show('error/err404');
         }
     }
 }
