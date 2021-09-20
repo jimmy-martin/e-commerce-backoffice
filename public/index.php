@@ -19,6 +19,8 @@
 // mais aussi d'activer le chargement automatique des classes (convention PSR-4)
 require_once '../vendor/autoload.php';
 
+// on cree une session (ou la restaure)
+// on pourra donc se servir de la variable $_SESSION
 session_start();
 
 /* ------------

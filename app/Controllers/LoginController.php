@@ -34,6 +34,12 @@ class LoginController extends CoreController
             $errors[] = 'Mot de passe non renseigné';
         }
 
+        if(!empty($errors)){
+            $this->show('login/form', [
+                'errors' => $errors
+            ]);
+        }
+
         $user = AppUser::findByEmail($email);
 
         if ($user) {
@@ -43,15 +49,13 @@ class LoginController extends CoreController
             $isPassCorrect = false;
         }
 
-        if (empty($errors) && $isPassCorrect) {
+        if ($isPassCorrect) {
             $_SESSION['userId'] = $user->getId();
             $_SESSION['userObject'] = $user;
             header('Location: /');
             exit;
         } else {
-            $errors = [
-                'L\'email ou le mot de passe renseignés sont incorrects !'
-            ];
+            $errors[] = 'L\'email ou le mot de passe renseignés sont incorrects !';
             $this->show('login/form', [
                 'errors' => $errors
             ]);
