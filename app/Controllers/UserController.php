@@ -100,4 +100,31 @@ class UserController extends CoreController
             exit;
         }
     }
+
+    /**
+     * Delete an user into the database
+     *
+     * @param $id user' id
+     * @return void
+     */
+    public function delete($id)
+    {
+        $this->checkAuthorization(['admin', 'catalog-manager']);
+
+        $user = AppUser::find($id);
+
+        if($user){
+
+            $result = $user->delete();
+    
+            if ($result) {
+                header('Location: /user/list');
+                exit;
+            } else {
+                echo 'Une erreur s\'est produite !';
+            }
+        } else {
+            $this->show('error/err404');
+        }
+    }
 }
