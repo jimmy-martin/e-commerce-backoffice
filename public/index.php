@@ -19,6 +19,8 @@
 // mais aussi d'activer le chargement automatique des classes (convention PSR-4)
 require_once '../vendor/autoload.php';
 
+// on cree une session (ou la restaure)
+// on pourra donc se servir de la variable $_SESSION
 session_start();
 
 /* ------------
@@ -216,23 +218,33 @@ $router->addRoutes([
 $router->addRoutes([
     [
         'GET',
-        '/connection',
+        '/login',
         [
-            'method' => 'connection',
+            'method' => 'connect',
             'controller' => '\App\Controllers\LoginController'
         ],
-        'login-connection'
+        'login-connect'
     ],
 
     [
         'POST',
-        '/connection',
+        '/login',
         [
             'method' => 'authenticate',
             'controller' => '\App\Controllers\LoginController'
         ],
         'login-authenticate'
-    ]
+    ],
+
+    [
+        'GET',
+        '/logout',
+        [
+            'method' => 'disconnect',
+            'controller' => '\App\Controllers\LoginController'
+        ],
+        'login-disconnect'
+    ],
 ]);
 
 /* -------------

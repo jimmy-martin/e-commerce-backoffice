@@ -3,15 +3,24 @@
 namespace App\Controllers;
 
 use App\Models\AppUser;
-use App\Models\CoreModel;
 
 class LoginController extends CoreController
 {
-    public function connection()
+    /**
+     * Afficher le formulaire de connexion
+     *
+     * @return void
+     */
+    public function connect()
     {
         $this->show('login/form');
     }
 
+    /**
+     * Récupération des données du formulaire
+     *
+     * @return void
+     */
     public function authenticate()
     {
         $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
@@ -19,30 +28,59 @@ class LoginController extends CoreController
 
         $errors = [];
         if (!$email) {
-            $errors[] = 'Email absent ou incorrect';
+            $errors[] = 'Email non renseigné';
         }
         if (!$password) {
-            $errors[] = 'Mot de passe absent ou incorrect';
+            $errors[] = 'Mot de passe non renseigné';
         }
 
-        if (empty($errors)){
-            $user = AppUser::findByEmail($email);
+        if (!empty($errors)) {
+            $this->show('login/form', [
+                'errors' => $errors
+            ]);
+        }
 
-            // Jé verifie si j'ai bien un utilisateur avec cet email et ce mot de passe
-            if($user && $user->getPassword() === $password){
-                // echo 'Tout est bon !';
-                $_SESSION['userId'] = $user->getId();
-                $_SESSION['userObject'] = $user;
-                header('Location: /');
-                exit;
-            } else {
-                echo 'L\'email ou le mot de passe renseignés sont incorrects !';
-            }
+        $user = AppUser::findByEmail($email);
+
+        if ($user) {
+            // Jé verifie si l'utilisateur que j'ai trouve a le meme mot de passe que celui rentre par l'utilisateur dans le formulaire
+            $isPassCorrect = password_verify($password, $user->getPassword());
         } else {
-            echo 'Certaines données sont manquantes ou incorrectes !';
-            foreach ($errors as $value) {
-                echo "<div>$value</div>";
-            }
+            $isPassCorrect = false;
         }
+
+        if ($isPassCorrect) {
+            $_SESSION['userId'] = $user->getId();
+            $_SESSION['userObject'] = $user;
+
+            // on redirige vers la page d'accueil si l'utilisateur est bien connecté
+            global $router;
+            header('Location: ' . $router->generate('main-home'));
+            exit;
+        } else {
+            $errors[] = 'L\'email ou le mot de passe renseignés sont incorrects !';
+            $this->show('login/form', [
+                'errors' => $errors
+            ]);
+        }
+    }
+
+    /**
+     * Déconnecter un utilisateur
+     *
+     * @return void
+     */
+    public function disconnect()
+    {
+        // on vide le tableau $_SESSION
+        $_SESSION = [];
+
+        session_destroy();
+
+        // puisque l'utilisateur n'est plus identifiable et qu'on est sur un Back Office
+        // on le redirige vers le formulaire d'identification
+        global $router;
+        header('Location: ' . $router->generate('login-connect'));
+        exit;
     }
 }
