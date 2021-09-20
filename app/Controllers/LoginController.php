@@ -3,11 +3,10 @@
 namespace App\Controllers;
 
 use App\Models\AppUser;
-use App\Models\CoreModel;
 
 class LoginController extends CoreController
 {
-    public function connection()
+    public function connect()
     {
         $this->show('login/form');
     }
@@ -39,10 +38,15 @@ class LoginController extends CoreController
                 echo 'L\'email ou le mot de passe renseignés sont incorrects !';
             }
         } else {
-            
+
             $this->show('login/form', [
                 'errors' => $errors
             ]);
         }
+    }
+
+    public function disconnect()
+    {
+        // TODO
     }
 }

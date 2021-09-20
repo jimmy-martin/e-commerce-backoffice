@@ -216,17 +216,17 @@ $router->addRoutes([
 $router->addRoutes([
     [
         'GET',
-        '/connection',
+        '/login',
         [
-            'method' => 'connection',
+            'method' => 'connect',
             'controller' => '\App\Controllers\LoginController'
         ],
-        'login-connection'
+        'login-connect'
     ],
 
     [
         'POST',
-        '/connection',
+        '/login',
         [
             'method' => 'authenticate',
             'controller' => '\App\Controllers\LoginController'

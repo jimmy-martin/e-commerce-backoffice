@@ -44,7 +44,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="<?= $router->generate('login-connection') ?>">
+                    <a class="nav-link" href="<?= $router->generate('login-connect') ?>">
                         Se connecter
                     </a>
                 </li>
