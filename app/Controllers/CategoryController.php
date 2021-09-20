@@ -13,6 +13,8 @@ class CategoryController extends CoreController
      */
     public function list()
     {
+        $this->checkAuthorization(['admin', 'catalog-manager']);
+
         $categories = Category::findAll();
 
         // dump($categories);
@@ -29,6 +31,7 @@ class CategoryController extends CoreController
      */
     public function add()
     {
+        $this->checkAuthorization(['admin', 'catalog-manager']);
         $this->show('category/add');
     }
 
@@ -39,6 +42,7 @@ class CategoryController extends CoreController
      */
     public function create()
     {
+        $this->checkAuthorization(['admin', 'catalog-manager']);
         // dump($_POST);
 
         // filter_input fait déja le test pour savoir si la variables existe bien, etc
@@ -92,6 +96,7 @@ class CategoryController extends CoreController
      */
     public function update($id)
     {
+        $this->checkAuthorization(['admin', 'catalog-manager']);
         $category = Category::find($id);
 
         $this->show('category/update', [
@@ -107,6 +112,7 @@ class CategoryController extends CoreController
      */
     public function edit($id)
     {
+        $this->checkAuthorization(['admin', 'catalog-manager']);
         // dump($id);
 
         $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
@@ -156,6 +162,7 @@ class CategoryController extends CoreController
      */
     public function delete($id)
     {
+        $this->checkAuthorization(['admin', 'catalog-manager']);
         $category = Category::find($id);
 
         if($category){

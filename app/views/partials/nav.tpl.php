@@ -42,6 +42,13 @@
                         Sélections Accueil &amp; Footer
                     </a>
                 </li>
+                <?php if(isset($_SESSION['userObject']) && $_SESSION['userObject']->getRole() === 'admin') : ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?= $router->generate('user-list') ?>">
+                        Utilisateurs
+                    </a>
+                </li>
+                <?php endif; ?>
                 <li class="nav-item">
                     <?php if (isset($_SESSION['userId']) && isset($_SESSION['userObject'])) : ?>
                         <a class="nav-link" href="<?= $router->generate('login-disconnect') ?>">

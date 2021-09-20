@@ -206,7 +206,6 @@ $router->addRoutes([
 // MARQUES
 // -----------------------------------------------
 
-
 // -----------------------------------------------
 // TYPES
 // -----------------------------------------------
@@ -244,6 +243,42 @@ $router->addRoutes([
             'controller' => '\App\Controllers\LoginController'
         ],
         'login-disconnect'
+    ],
+]);
+
+// -----------------------------------------------
+// Utilisateurs
+// -----------------------------------------------
+
+$router->addRoutes([
+    [
+        'GET',
+        '/user/list',
+        [
+            'method' => 'list',
+            'controller' => '\App\Controllers\UserController'
+        ],
+        'user-list'
+    ],
+
+    [
+        'GET',
+        '/user/add',
+        [
+            'method' => 'add',
+            'controller' => '\App\Controllers\UserController'
+        ],
+        'user-add'
+    ],
+
+    [
+        'POST',
+        '/user/add',
+        [
+            'method' => 'create',
+            'controller' => '\App\Controllers\UserController'
+        ],
+        'user-create'
     ],
 ]);
 
