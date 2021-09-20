@@ -43,6 +43,11 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="<?= $router->generate('user-list') ?>">
+                        Utilisateurs
+                    </a>
+                </li>
+                <li class="nav-item">
                     <?php if (isset($_SESSION['userId']) && isset($_SESSION['userObject'])) : ?>
                         <a class="nav-link" href="<?= $router->generate('login-disconnect') ?>">
                             Se déconnecter
