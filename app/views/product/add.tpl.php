@@ -78,6 +78,6 @@
             Le type de produit
         </small>
     </div>
-
+    <input type="hidden" name="token" value="<?= $_SESSION['token'] ?>">
     <button type="submit" class="btn btn-primary btn-block mt-5">Valider</button>
 </form>

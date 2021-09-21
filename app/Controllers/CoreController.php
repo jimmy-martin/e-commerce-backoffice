@@ -33,6 +33,8 @@ class CoreController
             'category-update' => ['admin', 'catalog-manager'],
             'category-edit' => ['admin', 'catalog-manager'],
             'category-delete' => ['admin', 'catalog-manager'],
+            'category-order' => ['admin', 'catalog-manager'],
+            'category-changeOrder' => ['admin', 'catalog-manager'],
 
             'product-list' => ['admin', 'catalog-manager'],
             'product-add' => ['admin', 'catalog-manager'],
@@ -74,6 +76,18 @@ class CoreController
 
         $csrfTokenToShowForm = [
             'user-add', // nom de la route
+            'main-home',
+            'user-update',
+
+            'category-order',
+            'category-add',
+            'category-list',
+            'category-update',
+
+            'product-add',
+            'product-update',
+
+            'login-connect'
         ];
 
         if(in_array($routeName, $csrfTokenToShowForm)){
@@ -87,6 +101,17 @@ class CoreController
 
         $csrfTokenToPostForm = [
             'user-create', // nom de la route
+            'user-edit',
+
+            'category-changeOrder',
+            'category-create',
+            'category-delete',
+            'category-edit',
+
+            'product-create',
+            'product-edit',
+
+            'login-authenticate'
         ];
 
         if(in_array($routeName, $csrfTokenToPostForm)){
