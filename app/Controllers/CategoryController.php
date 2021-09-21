@@ -13,7 +13,6 @@ class CategoryController extends CoreController
      */
     public function list()
     {
-
         $categories = Category::findAll();
 
         // dump($categories);
@@ -31,6 +30,39 @@ class CategoryController extends CoreController
     public function add()
     {
         $this->show('category/add');
+    }
+
+    /**
+     * Displays form to change categories order in home page
+     *
+     * @return void
+     */
+    public function order()
+    {
+        $this->show('category/order', [
+            'categories' => Category::findAll()
+        ]);
+    }
+
+    /**
+     * Change categories order in home page
+     *
+     * @return void
+     */
+    public function changeOrder()
+    {
+        $emplacement = $_POST['emplacement'] ?? '';
+
+        foreach($emplacement as $order => $categoryId){
+            $category = Category::find($categoryId);
+
+            $category->setHomeOrder($order);
+            $category->updateHomeOrder();
+        }
+
+        global $router;
+        header('Location: ' . $router->generate('category-order'));
+        exit;
     }
 
     /**

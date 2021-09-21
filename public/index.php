@@ -211,6 +211,32 @@ $router->addRoutes([
 // -----------------------------------------------
 
 // -----------------------------------------------
+// ORDER HOME CATEGORIES
+// -----------------------------------------------
+
+$router->addRoutes([
+    [
+        'GET',
+        '/category/order',
+        [
+            'method' => 'order',
+            'controller' => '\App\Controllers\CategoryController'
+        ],
+        'category-order'
+    ],
+
+    [
+        'POST',
+        '/category/order',
+        [
+            'method' => 'changeOrder',
+            'controller' => '\App\Controllers\CategoryController'
+        ],
+        'category-changeOrder'
+    ]
+]);
+
+// -----------------------------------------------
 // CONNEXION
 // -----------------------------------------------
 
