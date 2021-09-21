@@ -1,14 +1,5 @@
 <a href="<?= $router->generate('user-list') ?>" class="btn btn-success float-right">Retour</a>
 <h2><?= $user->getId() === null ? 'Ajouter' : 'Modifier' ?> un utilisateur</h2>
-
-<div class="alert">
-    <?php if (!empty($errors)) : ?>
-        <?php foreach ($errors as $error) : ?>
-            <p><?= $error ?></p>
-        <?php endforeach; ?>
-    <?php endif; ?>
-</div>
-
 <form action="" method="POST" class="mt-5">
     <div class="form-group">
         <label for="email">E-mail</label>

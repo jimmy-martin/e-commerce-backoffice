@@ -85,17 +85,16 @@ class UserController extends CoreController
             $errors[] = 'Role absent ou incorrect';
         }
 
+        $user = new AppUser();
+
+        $user->setLastname($lastname);
+        $user->setFirstname($firstname);
+        $user->setEmail($email);
+        $user->setPassword(password_hash($password, PASSWORD_DEFAULT));
+        $user->setStatus($status);
+        $user->setRole($role);
+
         if (empty($errors)) {
-
-            $user = new AppUser();
-
-            $user->setLastname($lastname);
-            $user->setFirstname($firstname);
-            $user->setEmail($email);
-            $user->setPassword(password_hash($password, PASSWORD_DEFAULT));
-            $user->setStatus($status);
-            $user->setRole($role);
-
             $result = $user->save();
 
             if ($result) {
@@ -104,13 +103,15 @@ class UserController extends CoreController
             } else {
                 $errors[] = 'Erreur lors de l\'ajout de ce nouvel utilisateur dans la base de données!';
                 $this->show('user/add', [
-                    'errors' => $errors
+                    'errors' => $errors,
+                    'user' => $user
                 ]);
                 exit;
             }
         } else {
             $this->show('user/add', [
-                'errors' => $errors
+                'errors' => $errors,
+                'user' => $user
             ]);
             exit;
         }

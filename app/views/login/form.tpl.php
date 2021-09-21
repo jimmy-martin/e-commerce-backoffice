@@ -1,11 +1,4 @@
 <h2>Connexion</h2>
-<div class="alert">
-  <?php if (!empty($errors)) : ?>
-    <?php foreach ($errors as $error) : ?>
-      <p><?= $error ?></p>
-    <?php endforeach; ?>
-  <?php endif; ?>
-</div>
 <form action="" method="POST">
   <div class="form-group">
     <label for="exampleInputEmail1">Adresse e-mail</label>
