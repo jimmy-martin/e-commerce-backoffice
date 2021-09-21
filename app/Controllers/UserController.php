@@ -31,7 +31,9 @@ class UserController extends CoreController
     {
         $this->checkAuthorization(['admin', 'superadmin']);
 
-        $this->show('user/add');
+        $this->show('user/add', [
+            'user' => new AppUser(),
+        ]);
     }
 
     /**
@@ -109,6 +111,105 @@ class UserController extends CoreController
         } else {
             $this->show('user/add', [
                 'errors' => $errors
+            ]);
+            exit;
+        }
+    }
+
+    /**
+     * Displays form to edit an user
+     *
+     * @param $id user' id
+     * @return void
+     */
+    public function update($id)
+    {
+        $this->checkAuthorization(['admin', 'superadmin']);
+        
+        $user = AppUser::find($id);        
+
+        $this->show('user/add', [
+            'user' => $user
+        ]);
+    }
+
+    /**
+     * Modifier un utilisateur
+     *
+     * @return void
+     */
+    public function edit($id)
+    {
+        $this->checkAuthorization(['admin', 'superadmin']);
+
+        $lastname = filter_input(INPUT_POST, 'lastname', FILTER_SANITIZE_STRING);
+        $firstname = filter_input(INPUT_POST, 'lastname', FILTER_SANITIZE_STRING);
+        $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
+        $password = filter_input(INPUT_POST, 'password');
+        $status = filter_input(INPUT_POST, 'status', FILTER_VALIDATE_INT);
+        $role = filter_input(INPUT_POST, 'role', FILTER_SANITIZE_STRING);
+
+        // On va imposer un mot de passe avec des caracteres et une longueur spécifiques
+        /* 
+        On veut au moins:
+        - une lettre en minuscule
+        - une lettre en majuscule
+        - un chiffre
+        - un caractère spécial
+        - 8 caractères
+        */ 
+        $regex = "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/m";
+
+        $password = filter_var($password, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => $regex]]);
+
+        $errors = [];
+        if (!$lastname) {
+            $errors[] = 'Nom de famille absent ou incorrect';
+        }
+        if (!$firstname) {
+            $errors[] = 'Prénom absent ou incorrect';
+        }
+        if (!$email) {
+            $errors[] = 'Email absent ou incorrect';
+        }
+        if (!$password) {
+            $errors[] = 'Mot de passe absent ou incorrect';
+        }
+        if (!$status) {
+            $errors[] = 'Status absent ou incorrect';
+        }
+        if (!$role) {
+            $errors[] = 'Role absent ou incorrect';
+        }
+
+        if (empty($errors)) {
+
+            $user = AppUser::find($id);
+
+            $user->setLastname($lastname);
+            $user->setFirstname($firstname);
+            $user->setEmail($email);
+            $user->setPassword(password_hash($password, PASSWORD_DEFAULT));
+            $user->setStatus($status);
+            $user->setRole($role);
+
+            $result = $user->save();
+
+            if ($result) {
+                header('Location: /user/list');
+                exit;
+            } else {
+                $errors[] = 'Erreur lors de la modification de cet utilisateur dans la base de données!';
+                $this->show('user/add', [
+                    'errors' => $errors,
+                    'user' => AppUser::find($id)
+                ]);
+                exit;
+            }
+        } else {
+            $this->show('user/add', [
+                'errors' => $errors,
+                'user' => AppUser::find($id)
             ]);
             exit;
         }

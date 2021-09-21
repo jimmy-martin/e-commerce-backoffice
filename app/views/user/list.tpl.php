@@ -22,7 +22,7 @@
                 <td><?= $user->getRole() ?></td>
                 <td><?= $user->getStatus() == 1 ? 'actif' : 'désactivé/bloqué' ?></td>
                 <td class="text-right">
-                    <a href="#" class="btn btn-sm btn-warning">
+                    <a href="<?= $router->generate('user-update', ['id' => $user->getId()]) ?>" class="btn btn-sm btn-warning">
                         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                     </a>
                     <!-- Example single danger button -->

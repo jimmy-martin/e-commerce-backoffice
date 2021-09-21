@@ -140,6 +140,7 @@ class AppUser extends CoreModel
         $preparation->bindValue(':lastname', $this->lastname, PDO::PARAM_STR);
         $preparation->bindValue(':role', $this->role, PDO::PARAM_STR);
         $preparation->bindValue(':status', $this->status, PDO::PARAM_INT);
+        $preparation->bindValue(':id', $this->id, PDO::PARAM_INT);
 
         $preparation->execute();
 

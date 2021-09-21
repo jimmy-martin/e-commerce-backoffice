@@ -283,6 +283,26 @@ $router->addRoutes([
 
     [
         'GET',
+        '/user/update/[i:id]',
+        [
+            'method' => 'update',
+            'controller' => '\App\Controllers\UserController'
+        ],
+        'user-update'
+    ],
+
+    [
+        'POST',
+        '/user/update/[i:id]',
+        [
+            'method' => 'edit',
+            'controller' => '\App\Controllers\UserController'
+        ],
+        'user-edit'
+    ],
+
+    [
+        'GET',
         '/user/delete/[i:id]',
         [
             'method' => 'delete',
