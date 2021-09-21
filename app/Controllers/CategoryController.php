@@ -40,7 +40,9 @@ class CategoryController extends CoreController
      */
     public function order()
     {
-        $this->show('category/order');
+        $this->show('category/order', [
+            'categories' => Category::findAll()
+        ]);
     }
 
     /**
