@@ -4,6 +4,67 @@ namespace App\Controllers;
 
 class CoreController
 {
+    public function __construct()
+    {
+        // $match contient les infos sur la route courante
+        global $match;
+
+        // On aurait une erreur ci-dessous si $match vaut false car on ne peut pas lui demander une clé
+        // Donc si $match est un booléen, on laisse ErrorController s'occuper de la route et il n'y a pas de droit à tester
+        if (is_bool($match)) {
+            // On sort de l'exécution du constructeur grace à return
+            return;
+        }
+
+        // On récupère le nom de la route courante
+        // On va se servir du nom de la route demandée pour la faire coïncider avec les ACL
+        $routeName = $match['name'];
+
+        // -----------------------------------
+        // ACL
+        // -----------------------------------
+
+        $acl = [
+            'main-home' => ['admin', 'catalog-manager'],
+
+            'category-list' => ['admin', 'catalog-manager'],
+            'category-add' => ['admin', 'catalog-manager'],
+            'category-create' => ['admin', 'catalog-manager'],
+            'category-update' => ['admin', 'catalog-manager'],
+            'category-edit' => ['admin', 'catalog-manager'],
+            'category-delete' => ['admin', 'catalog-manager'],
+
+            'product-list' => ['admin', 'catalog-manager'],
+            'product-add' => ['admin', 'catalog-manager'],
+            'product-create' => ['admin', 'catalog-manager'],
+            'product-update' => ['admin', 'catalog-manager'],
+            'product-edit' => ['admin', 'catalog-manager'],
+            'product-delete' => ['admin', 'catalog-manager'],
+
+            // 'login-connect' => ['admin', 'catalog-manager'], // pas besoin de droits d'acces pour se connecter
+            // 'login-authenticate' => ['admin', 'catalog-manager'], // pas besoin de droits d'acces pour se connecter
+            'login-disconnect' => ['admin', 'catalog-manager'],
+
+            'user-list' => ['admin'],
+            'user-add' => ['admin'],
+            'user-create' => ['admin'],
+            'user-update' => ['admin'],
+            'user-edit' => ['admin'],
+            'user-delete' => ['admin'],
+        ];
+
+        // si je trouve le nom de la route dans mon tableau acl 
+        if(array_key_exists($routeName, $acl)){
+            // je recupere le tableau des roles autorisées
+            $authorizedRoles = $acl[$routeName];
+
+            // puis j'execute $this->checkAuthorization()
+            $this->checkAuthorization($authorizedRoles);
+        }
+        // sinon on ne fait rien
+
+
+    }
 
     /**
      * Méthode permettant de vérifier les droits d'un utilisateur

@@ -15,8 +15,6 @@ class MainController extends CoreController {
      */
     public function home()
     {
-        $this->checkAuthorization(['admin', 'catalog-manager', 'superadmin']);
-        
         $categories = Category::findAllHomepage();
         $products = Product::findAllHomepage();
 

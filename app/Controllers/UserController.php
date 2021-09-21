@@ -13,8 +13,6 @@ class UserController extends CoreController
      */
     public function list()
     {
-        $this->checkAuthorization(['admin', 'superadmin']);
-
         $users = AppUser::findAll();
 
         $this->show('user/list', [
@@ -29,8 +27,6 @@ class UserController extends CoreController
      */
     public function add()
     {
-        $this->checkAuthorization(['admin', 'superadmin']);
-
         $this->show('user/add', [
             'user' => new AppUser(),
         ]);
@@ -43,8 +39,6 @@ class UserController extends CoreController
      */
     public function create()
     {
-        $this->checkAuthorization(['admin', 'superadmin']);
-
         $lastname = filter_input(INPUT_POST, 'lastname', FILTER_SANITIZE_STRING);
         $firstname = filter_input(INPUT_POST, 'lastname', FILTER_SANITIZE_STRING);
         $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
@@ -129,8 +123,6 @@ class UserController extends CoreController
      */
     public function update($id)
     {
-        $this->checkAuthorization(['admin', 'superadmin']);
-        
         $user = AppUser::find($id);        
 
         $this->show('user/add', [
@@ -145,8 +137,6 @@ class UserController extends CoreController
      */
     public function edit($id)
     {
-        $this->checkAuthorization(['admin', 'superadmin']);
-
         $lastname = filter_input(INPUT_POST, 'lastname', FILTER_SANITIZE_STRING);
         $firstname = filter_input(INPUT_POST, 'lastname', FILTER_SANITIZE_STRING);
         $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
@@ -228,8 +218,6 @@ class UserController extends CoreController
      */
     public function delete($id)
     {
-        $this->checkAuthorization(['admin', 'superadmin']);
-
         $user = AppUser::find($id);
 
         if($user){
