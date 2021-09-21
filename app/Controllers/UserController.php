@@ -13,9 +13,9 @@ class UserController extends CoreController
      */
     public function list()
     {
-        $users = AppUser::findAll();
-
         $this->checkAuthorization(['admin']);
+
+        $users = AppUser::findAll();
 
         $this->show('user/list', [
             'users' => $users

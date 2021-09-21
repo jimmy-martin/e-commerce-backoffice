@@ -6,6 +6,7 @@
             <th scope="col">#</th>
             <th scope="col">Prénom</th>
             <th scope="col">Nom</th>
+            <th scope="col">Email</th>
             <th scope="col">Rôle</th>
             <th scope="col">Status</th>
             <th scope="col"></th>
@@ -17,6 +18,7 @@
                 <th scope="row"><?= $user->getId() ?></th>
                 <td><?= $user->getFirstName() ?></td>
                 <td><?= $user->getLastName() ?></td>
+                <td><?= $user->getEmail() ?></td>
                 <td><?= $user->getRole() ?></td>
                 <td><?= $user->getStatus() == 1 ? 'actif' : 'désactivé/bloqué' ?></td>
                 <td class="text-right">
