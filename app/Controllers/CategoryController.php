@@ -34,6 +34,16 @@ class CategoryController extends CoreController
     }
 
     /**
+     * Displays form to change categories order in home page
+     *
+     * @return void
+     */
+    public function order()
+    {
+        $this->show('category/order');
+    }
+
+    /**
      * Add a category into the database
      *
      * @return void

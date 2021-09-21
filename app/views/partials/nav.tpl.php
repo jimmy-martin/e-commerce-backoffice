@@ -38,7 +38,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="<?= $router->generate('category-order') ?>">
                         Sélections Accueil &amp; Footer
                     </a>
                 </li>
