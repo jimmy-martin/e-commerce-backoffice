@@ -63,7 +63,48 @@ class CoreController
         }
         // sinon on ne fait rien
 
+        // ---------------------------------------------------
+        // TOKEN ANTI-CSRF (attaque via faux formulaire)
+        // ---------------------------------------------------
 
+        // *****************************
+        // partie dédiée aux formulaires
+        // *****************************
+
+
+        $csrfTokenToShowForm = [
+            'user-add', // nom de la route
+        ];
+
+        if(in_array($routeName, $csrfTokenToShowForm)){
+            // si ma route est présente dans le tableau $csrfTokenToCreate
+            $_SESSION['token'] = bin2hex(random_bytes(32));
+        }
+
+        // *****************************
+        // partie dédiée aux traitement des formulaires
+        // *****************************
+
+        $csrfTokenToPostForm = [
+            'user-create', // nom de la route
+        ];
+
+        if(in_array($routeName, $csrfTokenToPostForm)){
+           // on recupere le token en session
+           $token = filter_input(INPUT_POST, 'token');
+
+           $sessionToken = $_SESSION['token'] ?? '';
+
+           if ($token != $sessionToken || empty($token)){
+               // si les token sont differents alors on affiche une 403
+               http_response_code(403);
+               $this->show('error/err403');
+               exit;
+           } else {
+               // sinon on supprime le token et on laisse la suite du code s'exécuter
+               unset($_SESSION['token']);
+           }
+        }
     }
 
     /**
