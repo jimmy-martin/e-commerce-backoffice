@@ -219,6 +219,38 @@ class Category extends CoreModel
     }
 
     /**
+     * Update a category in database
+     * 
+     * @return bool
+     */
+    public function updateHomeOrder()
+    {
+        $pdo = Database::getPDO();
+        $sql = "
+            UPDATE `category`
+            SET `home_order` = 0,
+                `updated_at` = NOW()
+            WHERE `home_order` = :home_order;
+
+            UPDATE `category`
+            SET `home_order` = :home_order,
+                `updated_at` = NOW()
+            WHERE `id` = :id
+        ";
+
+        $preparation = $pdo->prepare($sql);
+
+        $preparation->bindValue(':home_order', $this->home_order, PDO::PARAM_INT);
+        $preparation->bindValue(':id', $this->id, PDO::PARAM_INT);
+
+        $preparation->execute();
+
+        $updatedRows = $preparation->rowCount();
+
+        return ($updatedRows > 0);
+    }
+
+    /**
      * Delete a category in database
      * 
      * @return bool

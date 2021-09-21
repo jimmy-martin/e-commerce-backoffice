@@ -223,6 +223,16 @@ $router->addRoutes([
             'controller' => '\App\Controllers\CategoryController'
         ],
         'category-order'
+    ],
+
+    [
+        'POST',
+        '/category/order',
+        [
+            'method' => 'changeOrder',
+            'controller' => '\App\Controllers\CategoryController'
+        ],
+        'category-changeOrder'
     ]
 ]);
 
