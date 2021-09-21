@@ -52,6 +52,26 @@ class UserController extends CoreController
         $status = filter_input(INPUT_POST, 'status', FILTER_VALIDATE_INT);
         $role = filter_input(INPUT_POST, 'role', FILTER_SANITIZE_STRING);
 
+        $errors = [];
+        if (!$lastname) {
+            $errors[] = 'Nom de famille absent ou incorrect';
+        }
+        if (!$firstname) {
+            $errors[] = 'Prénom absent ou incorrect';
+        }
+        if (!$email) {
+            $errors[] = 'Email absent ou incorrect';
+        }
+        if (!$password) {
+            $errors['password'] = 'Mot de passe absent';
+        }
+        if (!$status) {
+            $errors[] = 'Status absent ou incorrect';
+        }
+        if (!$role) {
+            $errors[] = 'Role absent ou incorrect';
+        }
+
         // On va imposer un mot de passe avec des caracteres et une longueur spécifiques
         /* 
         On veut au moins:
@@ -65,24 +85,8 @@ class UserController extends CoreController
 
         $password = filter_var($password, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => $regex]]);
 
-        $errors = [];
-        if (!$lastname) {
-            $errors[] = 'Nom de famille absent ou incorrect';
-        }
-        if (!$firstname) {
-            $errors[] = 'Prénom absent ou incorrect';
-        }
-        if (!$email) {
-            $errors[] = 'Email absent ou incorrect';
-        }
         if (!$password) {
-            $errors[] = 'Mot de passe absent ou incorrect';
-        }
-        if (!$status) {
-            $errors[] = 'Status absent ou incorrect';
-        }
-        if (!$role) {
-            $errors[] = 'Role absent ou incorrect';
+            $errors['password'] = 'Mot de passe incorrect';
         }
 
         $user = new AppUser();
