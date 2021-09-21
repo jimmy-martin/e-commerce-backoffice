@@ -52,6 +52,8 @@ class CategoryController extends CoreController
     public function changeOrder()
     {
         $emplacement = $_POST['emplacement'] ?? '';
+        dump($emplacement);
+        exit;
 
         foreach($emplacement as $order => $categoryId){
             $category = Category::find($categoryId);

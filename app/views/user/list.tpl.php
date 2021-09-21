@@ -31,7 +31,7 @@
                             <i class="fa fa-trash-o" aria-hidden="true"></i>
                         </button>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="<?= $router->generate('user-delete', ['id' => $user->getId()]) ?>">Oui, je veux supprimer</a>
+                            <a class="dropdown-item" href="<?= $router->generate('user-delete', ['id' => $user->getId()]) . '?token=' . $_SESSION['token'] ?>">Oui, je veux supprimer</a>
                             <a class="dropdown-item" href="#" data-toggle="dropdown">Oups !</a>
                         </div>
                     </div>
