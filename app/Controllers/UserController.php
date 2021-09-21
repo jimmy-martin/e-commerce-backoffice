@@ -13,7 +13,7 @@ class UserController extends CoreController
      */
     public function list()
     {
-        $this->checkAuthorization(['admin']);
+        $this->checkAuthorization(['admin', 'superadmin']);
 
         $users = AppUser::findAll();
 
@@ -29,7 +29,7 @@ class UserController extends CoreController
      */
     public function add()
     {
-        $this->checkAuthorization(['admin']);
+        $this->checkAuthorization(['admin', 'superadmin']);
 
         $this->show('user/add');
     }
@@ -41,7 +41,7 @@ class UserController extends CoreController
      */
     public function create()
     {
-        $this->checkAuthorization(['admin']);
+        $this->checkAuthorization(['admin', 'superadmin']);
 
         $lastname = filter_input(INPUT_POST, 'lastname', FILTER_SANITIZE_STRING);
         $firstname = filter_input(INPUT_POST, 'lastname', FILTER_SANITIZE_STRING);
@@ -122,7 +122,7 @@ class UserController extends CoreController
      */
     public function delete($id)
     {
-        $this->checkAuthorization(['admin']);
+        $this->checkAuthorization(['admin', 'superadmin']);
 
         $user = AppUser::find($id);
 

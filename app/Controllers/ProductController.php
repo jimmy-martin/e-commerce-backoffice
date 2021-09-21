@@ -17,7 +17,7 @@ class ProductController extends CoreController
      */
     public function list()
     {
-        $this->checkAuthorization(['admin', 'catalog-manager']);
+        $this->checkAuthorization(['admin', 'catalog-manager', 'superadmin']);
         
         $products = Product::findAll();
 
@@ -33,7 +33,7 @@ class ProductController extends CoreController
      */
     public function add()
     {
-        $this->checkAuthorization(['admin', 'catalog-manager']);
+        $this->checkAuthorization(['admin', 'catalog-manager', 'superadmin']);
         
         $types = Type::findAll();
         $brands = Brand::findAll();
@@ -53,7 +53,7 @@ class ProductController extends CoreController
      */
     public function create()
     {
-        $this->checkAuthorization(['admin', 'catalog-manager']);
+        $this->checkAuthorization(['admin', 'catalog-manager', 'superadmin']);
         
         // dump($_POST);
 
@@ -137,7 +137,7 @@ class ProductController extends CoreController
      */
     public function update($id)
     {
-        $this->checkAuthorization(['admin', 'catalog-manager']);
+        $this->checkAuthorization(['admin', 'catalog-manager', 'superadmin']);
         
         $product = Product::find($id);
 
@@ -162,7 +162,7 @@ class ProductController extends CoreController
      */
     public function edit($id)
     {
-        $this->checkAuthorization(['admin', 'catalog-manager']);
+        $this->checkAuthorization(['admin', 'catalog-manager', 'superadmin']);
         
         // dump($_POST);
 
@@ -246,7 +246,7 @@ class ProductController extends CoreController
      */
     public function delete($id)
     {
-        $this->checkAuthorization(['admin', 'catalog-manager']);
+        $this->checkAuthorization(['admin', 'catalog-manager', 'superadmin']);
         
         $product = Product::find($id);
 
