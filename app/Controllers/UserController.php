@@ -15,8 +15,6 @@ class UserController extends CoreController
     {
         $users = AppUser::findAll();
 
-        $this->checkAuthorization(['admin']);
-
         $this->show('user/list', [
             'users' => $users
         ]);
@@ -29,9 +27,9 @@ class UserController extends CoreController
      */
     public function add()
     {
-        $this->checkAuthorization(['admin']);
-
-        $this->show('user/add');
+        $this->show('user/add', [
+            'user' => new AppUser(),
+        ]);
     }
 
     /**
@@ -41,8 +39,104 @@ class UserController extends CoreController
      */
     public function create()
     {
-        $this->checkAuthorization(['admin']);
+        $lastname = filter_input(INPUT_POST, 'lastname', FILTER_SANITIZE_STRING);
+        $firstname = filter_input(INPUT_POST, 'lastname', FILTER_SANITIZE_STRING);
+        $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
+        $password = filter_input(INPUT_POST, 'password');
+        $status = filter_input(INPUT_POST, 'status', FILTER_VALIDATE_INT);
+        $role = filter_input(INPUT_POST, 'role', FILTER_SANITIZE_STRING);
 
+        $errors = [];
+        if (!$lastname) {
+            $errors[] = 'Nom de famille absent ou incorrect';
+        }
+        if (!$firstname) {
+            $errors[] = 'Prénom absent ou incorrect';
+        }
+        if (!$email) {
+            $errors[] = 'Email absent ou incorrect';
+        }
+        if (!$password) {
+            $errors['password'] = 'Mot de passe absent';
+        }
+        if (!$status) {
+            $errors[] = 'Status absent ou incorrect';
+        }
+        if (!$role) {
+            $errors[] = 'Role absent ou incorrect';
+        }
+
+        // On va imposer un mot de passe avec des caracteres et une longueur spécifiques
+        /* 
+        On veut au moins:
+        - une lettre en minuscule
+        - une lettre en majuscule
+        - un chiffre
+        - un caractère spécial
+        - 8 caractères
+        */ 
+        $regex = "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/m";
+
+        $password = filter_var($password, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => $regex]]);
+
+        if (!$password) {
+            $errors['password'] = 'Mot de passe incorrect';
+        }
+
+        $user = new AppUser();
+
+        $user->setLastname($lastname);
+        $user->setFirstname($firstname);
+        $user->setEmail($email);
+        $user->setPassword(password_hash($password, PASSWORD_DEFAULT));
+        $user->setStatus($status);
+        $user->setRole($role);
+
+        if (empty($errors)) {
+            $result = $user->save();
+
+            if ($result) {
+                header('Location: /user/list');
+                exit;
+            } else {
+                $errors[] = 'Erreur lors de l\'ajout de ce nouvel utilisateur dans la base de données!';
+                $this->show('user/add', [
+                    'errors' => $errors,
+                    'user' => $user
+                ]);
+                exit;
+            }
+        } else {
+            $this->show('user/add', [
+                'errors' => $errors,
+                'user' => $user
+            ]);
+            exit;
+        }
+    }
+
+    /**
+     * Displays form to edit an user
+     *
+     * @param $id user' id
+     * @return void
+     */
+    public function update($id)
+    {
+        $user = AppUser::find($id);        
+
+        $this->show('user/add', [
+            'user' => $user
+        ]);
+    }
+
+    /**
+     * Modifier un utilisateur
+     *
+     * @return void
+     */
+    public function edit($id)
+    {
         $lastname = filter_input(INPUT_POST, 'lastname', FILTER_SANITIZE_STRING);
         $firstname = filter_input(INPUT_POST, 'lastname', FILTER_SANITIZE_STRING);
         $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
@@ -85,7 +179,7 @@ class UserController extends CoreController
 
         if (empty($errors)) {
 
-            $user = new AppUser();
+            $user = AppUser::find($id);
 
             $user->setLastname($lastname);
             $user->setFirstname($firstname);
@@ -100,15 +194,17 @@ class UserController extends CoreController
                 header('Location: /user/list');
                 exit;
             } else {
-                $errors[] = 'Erreur lors de l\'ajout de ce nouvel utilisateur dans la base de données!';
+                $errors[] = 'Erreur lors de la modification de cet utilisateur dans la base de données!';
                 $this->show('user/add', [
-                    'errors' => $errors
+                    'errors' => $errors,
+                    'user' => AppUser::find($id)
                 ]);
                 exit;
             }
         } else {
             $this->show('user/add', [
-                'errors' => $errors
+                'errors' => $errors,
+                'user' => AppUser::find($id)
             ]);
             exit;
         }
@@ -122,8 +218,6 @@ class UserController extends CoreController
      */
     public function delete($id)
     {
-        $this->checkAuthorization(['admin']);
-
         $user = AppUser::find($id);
 
         if($user){

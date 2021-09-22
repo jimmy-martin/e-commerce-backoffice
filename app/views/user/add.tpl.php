@@ -1,30 +1,13 @@
 <a href="<?= $router->generate('user-list') ?>" class="btn btn-success float-right">Retour</a>
-<h2>Ajouter un utilisateur</h2>
-
-<div class="alert">
-  <?php if (!empty($errors)) : ?>
-    <?php foreach ($errors as $error) : ?>
-      <p><?= $error ?></p>
-    <?php endforeach; ?>
-  <?php endif; ?>
-</div>
-
+<h2><?= $user->getId() === null ? 'Ajouter' : 'Modifier' ?> un utilisateur</h2>
 <form action="" method="POST" class="mt-5">
     <div class="form-group">
-        <label for="lastname">Nom</label>
-        <input type="text" class="form-control" name="lastname" id="lastname" placeholder="Nom">
-    </div>
-    <div class="form-group">
-        <label for="firstname">Prénom</label>
-        <input type="text" class="form-control" name="firstname" id="firstname" placeholder="Prénom">
-    </div>
-    <div class="form-group">
-        <label for="email">Email</label>
-        <input type="text" class="form-control" name="email" id="email" placeholder="Email">
+        <label for="email">E-mail</label>
+        <input type="email" name="email" class="form-control" id="email" placeholder="nom.prenom@site.com" value="<?= $user->getEmail() ?>">
     </div>
     <div class="form-group">
         <label for="password">Mot de passe</label>
-        <input type="password" class="form-control" name="password" id="password" placeholder="Mot de passe"aria-describedby="passwordHelpBlock">
+        <input type="password" name="password" class="form-control" id="password" placeholder="Son mot de passe" aria-describedby="passwordHelpBlock">
         <small id="passwordHelpBlock" class="form-text text-muted">
             Le mot de passe doit contenir:
             <ul>
@@ -37,18 +20,29 @@
         </small>
     </div>
     <div class="form-group">
-        <label for="status">Status</label>
-        <select class="custom-select" name="status" id="status">
-            <option value="1" selected>Actif</option>
-            <option value="2">Désactivé / Bloqué</option>
-        </select>
+        <label for="firstname">Prénom</label>
+        <input type="text" name="firstname" class="form-control" id="firstname" placeholder="Prénom" value="<?= $user->getFirstname() ?>">
+    </div>
+    <div class="form-group">
+        <label for="lastname">Nom</label>
+        <input type="text" name="lastname" class="form-control" id="lastname" placeholder="Nom de famille" value="<?= $user->getLastname() ?>">
     </div>
     <div class="form-group">
         <label for="role">Role</label>
-        <select class="custom-select" name="role" id="role">
-                <option value="admin">Admin</option>
-                <option value="catalog-manager" selected>Catalog manager</option>
+        <select name="role" id="role" class="form-control">
+            <option value="catalog-manager" <?= $user->getRole() == 'catalog-manager' ? ' selected' : '' ?>>Catalog Manager</option>
+            <option value="admin" <?= $user->getRole() == 'admin' ? ' selected' : '' ?>>Administrateur</option>
         </select>
     </div>
+    <div class="form-group">
+        <label for="status">Statut</label>
+        <select name="status" id="status" class="form-control">
+            <option value="">-</option>
+            <option value="1" <?= $user->getStatus() == 1 ? ' selected' : '' ?>>Actif</option>
+            <option value="2" <?= $user->getStatus() == 2 ? ' selected' : '' ?>>Désactivé</option>
+        </select>
+    </div>
+    <input type="hidden" name="token" value="<?= $_SESSION['token'] ?>">
     <button type="submit" class="btn btn-primary btn-block mt-5">Valider</button>
 </form>
+</div>

@@ -1,11 +1,4 @@
 <h2>Connexion</h2>
-<div class="alert">
-  <?php if (!empty($errors)) : ?>
-    <?php foreach ($errors as $error) : ?>
-      <p><?= $error ?></p>
-    <?php endforeach; ?>
-  <?php endif; ?>
-</div>
 <form action="" method="POST">
   <div class="form-group">
     <label for="exampleInputEmail1">Adresse e-mail</label>
@@ -15,5 +8,6 @@
     <label for="exampleInputPassword1">Mot de passe</label>
     <input type="password" class="form-control" name="password" id="exampleInputPassword1" placeholder="Mot de passe&hellip;" required>
   </div>
+  <input type="hidden" name="token" value="<?= $_SESSION['token'] ?>">
   <button type="submit" class="btn btn-primary">Se connecter</button>
 </form>

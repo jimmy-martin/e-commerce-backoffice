@@ -6,6 +6,7 @@
             <th scope="col">#</th>
             <th scope="col">Prénom</th>
             <th scope="col">Nom</th>
+            <th scope="col">Email</th>
             <th scope="col">Rôle</th>
             <th scope="col">Status</th>
             <th scope="col"></th>
@@ -17,10 +18,11 @@
                 <th scope="row"><?= $user->getId() ?></th>
                 <td><?= $user->getFirstName() ?></td>
                 <td><?= $user->getLastName() ?></td>
+                <td><?= $user->getEmail() ?></td>
                 <td><?= $user->getRole() ?></td>
                 <td><?= $user->getStatus() == 1 ? 'actif' : 'désactivé/bloqué' ?></td>
                 <td class="text-right">
-                    <a href="#" class="btn btn-sm btn-warning">
+                    <a href="<?= $router->generate('user-update', ['id' => $user->getId()]) ?>" class="btn btn-sm btn-warning">
                         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                     </a>
                     <!-- Example single danger button -->
@@ -29,7 +31,7 @@
                             <i class="fa fa-trash-o" aria-hidden="true"></i>
                         </button>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="<?= $router->generate('user-delete', ['id' => $user->getId()]) ?>">Oui, je veux supprimer</a>
+                            <a class="dropdown-item" href="<?= $router->generate('user-delete', ['id' => $user->getId()]) . '?token=' . $_SESSION['token'] ?>">Oui, je veux supprimer</a>
                             <a class="dropdown-item" href="#" data-toggle="dropdown">Oups !</a>
                         </div>
                     </div>

@@ -211,6 +211,32 @@ $router->addRoutes([
 // -----------------------------------------------
 
 // -----------------------------------------------
+// ORDER HOME CATEGORIES
+// -----------------------------------------------
+
+$router->addRoutes([
+    [
+        'GET',
+        '/category/order',
+        [
+            'method' => 'order',
+            'controller' => '\App\Controllers\CategoryController'
+        ],
+        'category-order'
+    ],
+
+    [
+        'POST',
+        '/category/order',
+        [
+            'method' => 'changeOrder',
+            'controller' => '\App\Controllers\CategoryController'
+        ],
+        'category-changeOrder'
+    ]
+]);
+
+// -----------------------------------------------
 // CONNEXION
 // -----------------------------------------------
 
@@ -247,7 +273,7 @@ $router->addRoutes([
 ]);
 
 // -----------------------------------------------
-// Utilisateurs
+// UTILISATEURS
 // -----------------------------------------------
 
 $router->addRoutes([
@@ -279,6 +305,26 @@ $router->addRoutes([
             'controller' => '\App\Controllers\UserController'
         ],
         'user-create'
+    ],
+
+    [
+        'GET',
+        '/user/update/[i:id]',
+        [
+            'method' => 'update',
+            'controller' => '\App\Controllers\UserController'
+        ],
+        'user-update'
+    ],
+
+    [
+        'POST',
+        '/user/update/[i:id]',
+        [
+            'method' => 'edit',
+            'controller' => '\App\Controllers\UserController'
+        ],
+        'user-edit'
     ],
 
     [

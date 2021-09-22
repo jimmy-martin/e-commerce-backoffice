@@ -13,8 +13,6 @@ class CategoryController extends CoreController
      */
     public function list()
     {
-        $this->checkAuthorization(['admin', 'catalog-manager']);
-
         $categories = Category::findAll();
 
         // dump($categories);
@@ -31,8 +29,53 @@ class CategoryController extends CoreController
      */
     public function add()
     {
-        $this->checkAuthorization(['admin', 'catalog-manager']);
         $this->show('category/add');
+    }
+
+    /**
+     * Displays form to change categories order in home page
+     *
+     * @return void
+     */
+    public function order()
+    {
+        $this->show('category/order', [
+            'categories' => Category::findAll()
+        ]);
+    }
+
+    /**
+     * Change categories order in home page
+     *
+     * @return void
+     */
+    public function changeOrder()
+    {
+        $emplacements = $_POST['emplacement'] && is_array($_POST['emplacement']) ? $_POST['emplacement'] : '';
+
+        // en utilisant filter_input 
+        $emplacements = filter_input(INPUT_POST, 'emplacement', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
+
+        if($emplacements !== '')
+        {
+            foreach($emplacements as $order => $categoryId){
+                $category = Category::find($categoryId);
+
+                $category->setHomeOrder($order);
+                $category->updateHomeOrder();
+            }
+
+            global $router;
+            header('Location: ' . $router->generate('category-order'));
+            exit;
+        }        
+
+        // méthode vu en correction avec les marqueurs pour la requete sql (il faudrait modifier le formulaire pour qu'elle fonctionne avec mon code)
+        // Category::defineHomepage($emplacements);
+
+        // global $router;
+        // header('Location: ' . $router->generate('category-order'));
+        // exit;
     }
 
     /**
@@ -42,7 +85,6 @@ class CategoryController extends CoreController
      */
     public function create()
     {
-        $this->checkAuthorization(['admin', 'catalog-manager']);
         // dump($_POST);
 
         // filter_input fait déja le test pour savoir si la variables existe bien, etc
@@ -96,7 +138,6 @@ class CategoryController extends CoreController
      */
     public function update($id)
     {
-        $this->checkAuthorization(['admin', 'catalog-manager']);
         $category = Category::find($id);
 
         $this->show('category/update', [
@@ -112,7 +153,6 @@ class CategoryController extends CoreController
      */
     public function edit($id)
     {
-        $this->checkAuthorization(['admin', 'catalog-manager']);
         // dump($id);
 
         $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
@@ -162,13 +202,12 @@ class CategoryController extends CoreController
      */
     public function delete($id)
     {
-        $this->checkAuthorization(['admin', 'catalog-manager']);
         $category = Category::find($id);
 
-        if($category){
+        if ($category) {
 
             $result = $category->delete();
-    
+
             if ($result) {
                 header('Location: /category/list');
                 exit;
