@@ -251,6 +251,42 @@ class Category extends CoreModel
     }
 
     /**
+     * Méthode permettant de mettre 5 catégories à la une
+     *
+     * @param array $idList
+     * @return bool
+     */
+    static public function defineHomepage(array $emplacements)
+    {
+
+        // Connexion à la BDD
+        $pdo = Database::getPDO();
+
+
+        // Notre variable $sql contient 6 requêtes de type UPDATE
+        // oui c'est possible, on peut faire plusieurs requêtes en une seule fois en les séparant par des point-virgules «;»
+        // Et - contrairement à toutes les requêtes codées jusqu'à maintenant en S06 - nous n'utiliserons pas de paramètres nommés
+        // mais une autre possibilité de faire des requêtes préparées : des marqueurs (identifiés par des points d'interrogation `?`)
+        // https://www.php.net/manual/fr/pdo.prepare.php
+        $sql = '
+            UPDATE `category` set home_order = 0;
+            UPDATE `category` set home_order = 1 WHERE `id` = ?;
+            UPDATE `category` set home_order = 2 WHERE `id` = ?;
+            UPDATE `category` set home_order = 3 WHERE `id` = ?;
+            UPDATE `category` set home_order = 4 WHERE `id` = ?;
+            UPDATE `category` set home_order = 5 WHERE `id` = ?;
+        ';
+
+        // La première requête met les champs home_order de chaque catégorie à 0
+        // Puis, chaque catégorie concernée recevra son positionnement home_order
+
+        $pdoStatement = $pdo->prepare($sql);
+
+        return $pdoStatement->execute($emplacements);
+
+    }
+
+    /**
      * Delete a category in database
      * 
      * @return bool

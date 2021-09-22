@@ -51,20 +51,31 @@ class CategoryController extends CoreController
      */
     public function changeOrder()
     {
-        $emplacement = $_POST['emplacement'] ?? '';
-        dump($emplacement);
-        exit;
+        $emplacements = $_POST['emplacement'] && is_array($_POST['emplacement']) ? $_POST['emplacement'] : '';
 
-        foreach($emplacement as $order => $categoryId){
-            $category = Category::find($categoryId);
+        // en utilisant filter_input 
+        $emplacements = filter_input(INPUT_POST, 'emplacement', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
 
-            $category->setHomeOrder($order);
-            $category->updateHomeOrder();
-        }
+        if($emplacements !== '')
+        {
+            foreach($emplacements as $order => $categoryId){
+                $category = Category::find($categoryId);
 
-        global $router;
-        header('Location: ' . $router->generate('category-order'));
-        exit;
+                $category->setHomeOrder($order);
+                $category->updateHomeOrder();
+            }
+
+            global $router;
+            header('Location: ' . $router->generate('category-order'));
+            exit;
+        }        
+
+        // méthode vu en correction avec les marqueurs pour la requete sql (il faudrait modifier le formulaire pour qu'elle fonctionne avec mon code)
+        // Category::defineHomepage($emplacements);
+
+        // global $router;
+        // header('Location: ' . $router->generate('category-order'));
+        // exit;
     }
 
     /**
@@ -193,10 +204,10 @@ class CategoryController extends CoreController
     {
         $category = Category::find($id);
 
-        if($category){
+        if ($category) {
 
             $result = $category->delete();
-    
+
             if ($result) {
                 header('Location: /category/list');
                 exit;
